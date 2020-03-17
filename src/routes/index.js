@@ -8,7 +8,7 @@ export default function Routes() {
   return (
     <Switch>
       <Route path="/" exact component={Login} />
-      <Route path="/home" component={Home} />
+      <Route path="/home" component={Home} isPrivate />
     </Switch>
   );
 }

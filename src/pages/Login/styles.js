@@ -1,11 +1,8 @@
 import styled from 'styled-components';
 
 export const Root = styled.div`
-  display: flex;
-  align-items: center;
-  background: #7159c1;
-  height: 100%;
-
+  margin: 0 auto;
+  
   form {
     display: flex;
     flex-direction: column;
