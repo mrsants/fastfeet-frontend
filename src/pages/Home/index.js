@@ -1,10 +1,10 @@
-import React from 'react';
-
+import React from "react";
+import OrderList from "../../components/OrderList";
 
 export default function Home() {
   return (
-    <h1>
-      aqui é a home
-    </h1>
+    <>
+      <OrderList />
+    </>
   );
 }

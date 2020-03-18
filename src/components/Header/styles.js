@@ -3,7 +3,8 @@ import styled from "styled-components";
 export const Container = styled.header`
   display: flex;
   justify-content: space-between;
-  margin: 20px 30px 20px 30px;
+  padding: 20px 30px 20px 30px;
+  background: #fff;
 `;
 
 export const Menu = styled.ul`
