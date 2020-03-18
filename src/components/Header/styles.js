@@ -46,5 +46,6 @@ export const Config = styled.div`
     letter-spacing: 0;
     color: #de3b3b;
     opacity: 1;
+    cursor: pointer;
   }
 `;
