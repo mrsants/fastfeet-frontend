@@ -34,26 +34,36 @@ export const Container = styled.div`
       }
     }
 
-    button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #7d40e7 0% 0% no-repeat padding-box;
-      border-radius: 4px;
-      opacity: 1;
-      padding: 4px;
-      width: 142px;
-      height: 36px;
-      
-      span {
-        font-weight: bold;
-        text-align: center;
-        letter-spacing: 0;
-        color: #ffffff;
+    a {
+      &.register-redirect {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #7d40e7 0% 0% no-repeat padding-box;
+        border-radius: 4px;
         opacity: 1;
-        font-size: 14px;
-        margin-left: 6px;
+        padding: 4px;
+        width: 142px;
+        height: 36px;
+
+        span {
+          font-weight: bold;
+          text-align: center;
+          letter-spacing: 0;
+          color: #ffffff;
+          opacity: 1;
+          font-size: 14px;
+          margin-left: 6px;
+        }
       }
+    }
+  }
+
+  .error {
+    margin-top: 30px;
+    strong {
+      margin-top: 30px;
+      color: #de3b3b;
     }
   }
 `;
