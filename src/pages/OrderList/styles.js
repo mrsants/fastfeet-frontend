@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  margin-left: 120px;
-  margin-right: 120px;
+  margin-left: 245px;
+  margin-right: 245px;
   margin-top: 34px;
   h2 {
     text-align: left;
@@ -78,7 +78,7 @@ export const ListOrders = styled.div`
       text-align: left;
       tr {
         th {
-          font-size: 16px;
+          font-size: 14px;
           font-weight: bold;
           text-align: center;
           letter-spacing: 0;
@@ -107,7 +107,7 @@ export const ListOrders = styled.div`
           letter-spacing: 0;
           color: #666666;
           opacity: 1;
-          font-size: 16px;
+          font-size: 14px;
           padding: 8px;
           border-spacing: none;
 
@@ -117,7 +117,7 @@ export const ListOrders = styled.div`
             opacity: 1;
             padding: 5px;
             border-radius: 50%;
-            font-size: 16px;
+            font-size: 14px;
             background: #f4effc 0% 0% no-repeat padding-box;
             text-align: left;
             letter-spacing: 0;
@@ -128,18 +128,8 @@ export const ListOrders = styled.div`
 
           &.deliver {
             letter-spacing: 0;
-            color: #2ca42b;
             opacity: 1;
-            font-size: 14px;
-            .dotStatus {
-              background: #dff0df;
-              border-radius: 12px;
-              opacity: 1;
-              width: 99px;
-              height: 25px;
-              padding: 4px;
-            }
-
+            font-size: 12px;
             strong {
               margin-left: 2px;
             }
@@ -152,4 +142,12 @@ export const ListOrders = styled.div`
       }
     }
   }
+`;
+
+export const DotStatus = styled.span`
+  background: ${props => props.backgroundColor};
+  border-radius: 12px;
+  opacity: 1;
+  padding: 4px;
+  color: ${props => props.color};
 `;
