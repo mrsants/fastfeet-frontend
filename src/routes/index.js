@@ -9,7 +9,11 @@ export default function Routes() {
   return (
     <Switch>
       <Route path="/" exact component={Login} />
-      <Route path="/order-list" exact component={OrderList} isPrivate />
+      <Route
+        path="/order-list"
+        component={props => <OrderList {...props} />}
+        isPrivate
+      />
       <Route path="/order-register" exact component={OrderRegister} isPrivate />
     </Switch>
   );
