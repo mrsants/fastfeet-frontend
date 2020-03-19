@@ -1,15 +1,12 @@
 import React, { Component } from "react";
-import logo from "../../assets/fastfeet-logo.png";
-import { Container, Menu, StyledLink, Config } from "./styles";
-import { bindActionCreators } from "redux";
-import * as Actions from "../../store/modules/auth/actions";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import logo from "../../assets/fastfeet-logo.png";
 import history from "../../services/history";
+import * as Actions from "../../store/modules/auth/actions";
+import { MenuItem, Config, Container, Menu } from "./styles";
 
 class Header extends Component {
-  constructor() {
-    super();
-  }
 
   state = {
     menu: {
@@ -20,17 +17,17 @@ class Header extends Component {
           path: "/orders"
         },
         {
-          id: 1,
+          id: 2,
           description: "ENTREGADORES",
           path: "/delivers"
         },
         {
-          id: 1,
+          id: 3,
           description: "DESTINATÁRIOS",
           path: "/recipient"
         },
         {
-          id: 1,
+          id: 4,
           description: "PROBLEMAS",
           path: "/problems"
         }
@@ -61,8 +58,9 @@ class Header extends Component {
           />
           {this.state.menu.controls.map((menuItem, index) => {
             return (
-              <StyledLink
-                index={this.state.font.index}
+              <MenuItem
+              key={menuItem.id}
+              index={this.state.font.index}
                 className={`bold-${index}`}
                 onClick={e => {
                   e.preventDefault();
@@ -76,7 +74,7 @@ class Header extends Component {
                 }}
               >
                 {menuItem.description}
-              </StyledLink>
+              </MenuItem>
             );
           })}
         </Menu>

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom/cjs/react-router-dom";
 
 export const Container = styled.header`
   display: flex;
@@ -23,7 +22,7 @@ export const Menu = styled.ul`
   }
 `;
 
-export const StyledLink = styled(Link)`
+export const MenuItem = styled.span`
   margin-left: 20px;
   text-align: left;
   font-weight: bold;
@@ -33,7 +32,7 @@ export const StyledLink = styled(Link)`
   cursor: pointer;
 
   &.bold-${props => props.index} {
-    color: #000
+    color: #000;
   }
 `;
 
