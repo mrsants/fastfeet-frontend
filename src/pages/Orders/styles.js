@@ -21,7 +21,7 @@ export const Container = styled.div`
       align-items: center;
       div {
         &.search {
-          display:flex;
+          display: flex;
           align-items: center;
           background: #ffffff 0% 0% no-repeat padding-box;
           border: 1px solid #dddddd;
@@ -69,7 +69,7 @@ export const Container = styled.div`
     }
   }
 
-  .error {
+  .message {
     margin-top: 30px;
     strong {
       margin-top: 30px;

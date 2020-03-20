@@ -11,21 +11,31 @@ export default function Orders() {
   const [loading, setLoading] = useState(false);
   const [nameProduct, setNameProduct] = useState("");
   const [sizeList, setSizeList] = useState(0);
-
+  const [error, setError] = useState(false);
   async function loadListOrders(page) {
-    const response = await api.get(`/order-management?product=${nameProduct}`, {
-      params: {
-        page
-      }
-    });
+    try {
+      setLoading(true);
 
-    const data = response.data.map(order => ({
-      ...order
-    }));
+      const response = await api.get(
+        `/order-management?product=${nameProduct}`,
+        {
+          params: {
+            page
+          }
+        }
+      );
 
-    setSizeList(response.data.length);
-    setListOrders(data);
-    setLoading(false);
+      const data = response.data.map(order => ({
+        ...order
+      }));
+
+      setSizeList(response.data.length);
+      setListOrders(data);
+      setLoading(false);
+    } catch (err) {
+      setError(true);
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -46,6 +56,7 @@ export default function Orders() {
             }}
             type="text"
             placeholder="Buscar por encomendas"
+            disabled={error}
           />
         </div>
 
@@ -114,12 +125,24 @@ export default function Orders() {
           </table>
         </ListOrders>
       )}
-      {!sizeList && !loading && (
-        <div className="error">
+
+      {!sizeList && !loading && !error && (
+        <div className="message">
           <strong>Não foi encontrado encomendas para o periodo!</strong>
         </div>
       )}
-      <Pagination loadItems={loadListOrders} itemsLenght={sizeList} />
+
+      {sizeList > 0 && !loading && (
+        <Pagination loadItems={loadListOrders} itemsLenght={sizeList} />
+      )}
+
+      {error && !loading && (
+        <div className="message">
+          <strong>
+            Ocorreu um erro, por favor tente mais tarde novamente!
+          </strong>
+        </div>
+      )}
     </Container>
   );
 }
