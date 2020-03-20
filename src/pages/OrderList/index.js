@@ -9,16 +9,13 @@ import { Container, DotStatus, ListOrders } from "./styles";
 class OrderList extends Component {
   state = {
     listOrderManagement: [],
-    sizeList: false,
-    activePage: 15
+    sizeList: false
   };
 
   async componentWillMount() {
     const { data } = await api.get("order-management");
 
-    const size = Object.keys(data).length;
-
-    if (data && size > 0) {
+    if (Object.keys(data).length > 0) {
       this.setState({
         listOrderManagement: data
       });
@@ -27,11 +24,6 @@ class OrderList extends Component {
         sizeList: true
       });
     }
-  }
-
-  handlePageChange(pageNumber) {
-    console.log(`active page is ${pageNumber}`);
-    this.setState({ activePage: pageNumber });
   }
 
   render() {
@@ -80,10 +72,16 @@ class OrderList extends Component {
                         <td className="deliver">
                           <DotStatus
                             backgroundColor={
-                              !isNull(order.canceled_at) ? `#efcfcf` : `#dff0df`
+                              (order.status === "PENDENTE" && "#F0F0DF") ||
+                              (order.status === "CANCELADA" && "#FAB0B0") ||
+                              (order.status === "ENTREGUE" && "#DFF0DF") ||
+                              (order.status === "RETIRADA" && "#BAD2FF")
                             }
                             color={
-                              !isNull(order.canceled_at) ? `#de3b3b` : `#2ca42b`
+                              (order.status === "PENDENTE" && "#C1BC35") ||
+                              (order.status === "CANCELADA" && "#DE3B3B") ||
+                              (order.status === "ENTREGUE" && "#2CA42B") ||
+                              (order.status === "RETIRADA" && "#4D85EE")
                             }
                           >
                             <FaCircle size="10" />
@@ -109,13 +107,6 @@ class OrderList extends Component {
             <strong>Não foi encontrado encomendas para o periodo!</strong>
           </div>
         )}
-        <Pagination
-          activePage={this.state.activePage}
-          itemsCountPerPage={10}
-          totalItemsCount={450}
-          pageRangeDisplayed={5}
-          onChange={this.handlePageChange.bind(this)}
-        />
       </Container>
     );
   }
