@@ -8,28 +8,50 @@ import { Container, DotStatus, ListOrders } from "./styles";
 
 class Orders extends Component {
   state = {
-    listOrderManagement: [],
-    sizeList: false
+    orders: [],
+    loading: false,
+    product: "",
+    lengthOrders: 0
   };
 
-  async componentWillMount() {
-    const { data } = await api.get("order-management");
+  async loadListOrders(page) {
+    this.setState({
+      loading: true
+    });
+    try {
+      const response = await api.get(`order-management`);
 
-    if (Object.keys(data).length > 0) {
+      const data = response.data.map(order => ({
+        ...order
+      }));
+
       this.setState({
-        listOrderManagement: data
+        lengthOrders: Object.keys(data).length
       });
 
       this.setState({
-        sizeList: true
+        orders: data
+      });
+
+      this.setState({
+        loading: true
+      });
+    } catch (error) {
+      this.setState({
+        error: true
       });
     }
   }
 
-  render() {
-    const { listOrderManagement, sizeList } = this.state;
+  async componentWillMount() {
+    this.loadListOrders(1);
+  }
 
-    console.log(listOrderManagement);
+  render() {
+    const { orders, lengthOrders, loading, error } = this.state;
+
+    console.log(orders);
+    console.log(lengthOrders);
     return (
       <Container>
         <h2>Gerenciando encomendas</h2>
@@ -42,7 +64,7 @@ class Orders extends Component {
           </Link>
         </Form>
 
-        {sizeList && (
+        {lengthOrders > 0 && (
           <ListOrders>
             <table>
               <thead>
@@ -57,54 +79,60 @@ class Orders extends Component {
                 </tr>
               </thead>
               <tbody>
-                {sizeList &&
-                  listOrderManagement.map((order, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>#{order.id}</td>
-                        <td>{order.recipients.name}</td>
-                        <td>
-                          <span className="dotName">JD</span>
-                          {order.deliverymans.name}
-                        </td>
-                        <td>{order.recipients.city}</td>
-                        <td>{order.recipients.state}</td>
-                        <td className="deliver">
-                          <DotStatus
-                            backgroundColor={
-                              (order.status === "PENDENTE" && "#F0F0DF") ||
-                              (order.status === "CANCELADA" && "#FAB0B0") ||
-                              (order.status === "ENTREGUE" && "#DFF0DF") ||
-                              (order.status === "RETIRADA" && "#BAD2FF")
-                            }
-                            color={
-                              (order.status === "PENDENTE" && "#C1BC35") ||
-                              (order.status === "CANCELADA" && "#DE3B3B") ||
-                              (order.status === "ENTREGUE" && "#2CA42B") ||
-                              (order.status === "RETIRADA" && "#4D85EE")
-                            }
-                          >
-                            <FaCircle size="10" />
-                            <strong>
-                              {!isNull(order.canceled_at)
-                                ? "CANCELADO"
-                                : "ENTREGUE"}
-                            </strong>
-                          </DotStatus>
-                        </td>
-                        <td>
-                          <FaEllipsisH color="#C6C6C6" size="10" opacity="1" />
-                        </td>
-                      </tr>
-                    );
-                  })}
+                {orders.map((order, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>#{order.id}</td>
+                      <td>{order.recipients.name}</td>
+                      <td>
+                        <span className="dotName">JD</span>
+                        {order.deliverymans.name}
+                      </td>
+                      <td>{order.recipients.city}</td>
+                      <td>{order.recipients.state}</td>
+                      <td className="deliver">
+                        <DotStatus
+                          backgroundColor={
+                            (order.status === "PENDENTE" && "#F0F0DF") ||
+                            (order.status === "CANCELADA" && "#FAB0B0") ||
+                            (order.status === "ENTREGUE" && "#DFF0DF") ||
+                            (order.status === "RETIRADA" && "#BAD2FF")
+                          }
+                          color={
+                            (order.status === "PENDENTE" && "#C1BC35") ||
+                            (order.status === "CANCELADA" && "#DE3B3B") ||
+                            (order.status === "ENTREGUE" && "#2CA42B") ||
+                            (order.status === "RETIRADA" && "#4D85EE")
+                          }
+                        >
+                          <FaCircle size="10" />
+                          <strong>
+                            {!isNull(order.canceled_at)
+                              ? "CANCELADO"
+                              : "ENTREGUE"}
+                          </strong>
+                        </DotStatus>
+                      </td>
+                      <td>
+                        <FaEllipsisH color="#C6C6C6" size="10" opacity="1" />
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </ListOrders>
         )}
-        {!sizeList && (
+        {!lengthOrders && !loading && (
           <div className="error">
             <strong>Não foi encontrado encomendas para o periodo!</strong>
+          </div>
+        )}
+        {error && (
+          <div className="error">
+            <strong>
+              Ocorreu um erro, por favor tente mais tarde novamente!
+            </strong>
           </div>
         )}
       </Container>
