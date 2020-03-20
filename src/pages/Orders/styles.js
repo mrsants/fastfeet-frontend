@@ -14,23 +14,33 @@ export const Container = styled.div`
     margin-bottom: 34px;
   }
 
-  form {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    input {
-      background: #ffffff 0% 0% no-repeat padding-box;
-      border: 1px solid #dddddd;
-      border-radius: 4px;
-      opacity: 1;
-      width: 220px;
-      height: 36px;
-      padding: 4px;
-      &::placeholder {
-        text-align: left;
-        letter-spacing: 0;
-        color: #999999;
-        opacity: 1;
+  div {
+    &.content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      div {
+        &.search {
+          display:flex;
+          align-items: center;
+          background: #ffffff 0% 0% no-repeat padding-box;
+          border: 1px solid #dddddd;
+          border-radius: 4px;
+          opacity: 1;
+          padding-left: 4px;
+        }
+        input {
+          width: 220px;
+          height: 36px;
+          border: none;
+          padding: 4px;
+          &::placeholder {
+            text-align: left;
+            letter-spacing: 0;
+            color: #999999;
+            opacity: 1;
+          }
+        }
       }
     }
 

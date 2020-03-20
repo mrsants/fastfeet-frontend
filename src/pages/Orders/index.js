@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FaCircle, FaEllipsisH, FaPlus } from "react-icons/fa";
+import { MdSearch } from "react-icons/md";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import { isNull } from "util";
 import Pagination from "../../components/Pagination";
 import api from "../../services/auth";
 import { Container, DotStatus, ListOrders } from "./styles";
-
 export default function Orders() {
   const [listOrders, setListOrders] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -35,20 +35,25 @@ export default function Orders() {
   return (
     <Container>
       <h2>Gerenciando encomendas</h2>
-      <form>
-        <input
-          name="buscar_encomendas"
-          placeholder="Buscar por encomendas"
-          onChange={e => setNameProduct(e.target.value)}
-          type="text"
-          placeholder="Buscar por encomendas"
-        />
+      <div className="content-header">
+        <div className="search">
+          <MdSearch size={20} color="#999" />
+          <input
+            onChange={e => {
+              e.preventDefault();
+              setNameProduct(e.target.value);
+              loadListOrders();
+            }}
+            type="text"
+            placeholder="Buscar por encomendas"
+          />
+        </div>
 
         <Link className="register-redirect" to="/order-register">
           <FaPlus color="#ffffff" opacity="1" />
           <span>CADASTRAR</span>
         </Link>
-      </form>
+      </div>
 
       {sizeList > 0 && (
         <ListOrders>
