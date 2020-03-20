@@ -6,7 +6,7 @@ import { isNull } from "util";
 import api from "../../services/auth";
 import { Container, DotStatus, ListOrders } from "./styles";
 
-class OrderList extends Component {
+class Orders extends Component {
   state = {
     listOrderManagement: [],
     sizeList: false
@@ -112,4 +112,4 @@ class OrderList extends Component {
   }
 }
 
-export default OrderList;
+export default Orders;

@@ -7,7 +7,6 @@ import * as Actions from "../../store/modules/auth/actions";
 import { MenuItem, Config, Container, Menu } from "./styles";
 
 class Header extends Component {
-
   state = {
     menu: {
       controls: [
@@ -39,13 +38,16 @@ class Header extends Component {
     }
   };
 
+  componentDidMount() {
+    console.log(this.props);
+  }
   redirectTo() {
     const { signOut } = this.props;
-
     signOut();
   }
 
   render() {
+    const { user } = this.props.auth;
     return (
       <Container>
         <Menu>
@@ -53,14 +55,14 @@ class Header extends Component {
             src={logo}
             alt="Logo Fastfeet"
             onClick={() => {
-              history.push("/order-list");
+              history.push("/orders");
             }}
           />
           {this.state.menu.controls.map((menuItem, index) => {
             return (
               <MenuItem
-              key={menuItem.id}
-              index={this.state.font.index}
+                key={menuItem.id}
+                index={this.state.font.index}
                 className={`bold-${index}`}
                 onClick={e => {
                   e.preventDefault();
@@ -80,7 +82,7 @@ class Header extends Component {
         </Menu>
 
         <Config>
-          <strong>Admin FastFeet</strong>
+          <strong>{user.name}</strong>
           <span onClick={() => this.redirectTo()}>sair do sistema</span>
         </Config>
       </Container>
@@ -88,6 +90,10 @@ class Header extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
 const mapDispatchToProps = dispatch => bindActionCreators(Actions, dispatch);
 
-export default connect(null, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

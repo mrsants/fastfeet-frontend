@@ -27,7 +27,7 @@ export default function OrderRegister() {
               color={colorBack}
               onClick={e => {
                 e.preventDefault();
-                history.push("/order-list");
+                history.push("/orders");
               }}
             >
               <FaChevronLeft color="#fff" />
