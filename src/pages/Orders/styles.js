@@ -161,3 +161,20 @@ export const DotStatus = styled.span`
   padding: 4px;
   color: ${props => props.color};
 `;
+
+export const Pagination = styled.div`
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  span {
+    cursor: pointer;
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    margin: 4px;
+  }
+`;

@@ -1,17 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { FaCircle, FaEllipsisH, FaPlus } from "react-icons/fa";
-import { MdSearch } from "react-icons/md";
+import { MdSearch, MdChevronLeft, MdChevronRight } from "react-icons/md";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import { isNull } from "util";
-import Pagination from "../../components/Pagination";
 import api from "../../services/auth";
-import { Container, DotStatus, ListOrders } from "./styles";
+import { Container, DotStatus, ListOrders, Pagination } from "./styles";
+
 export default function Orders() {
   const [listOrders, setListOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [nameProduct, setNameProduct] = useState("");
   const [sizeList, setSizeList] = useState(0);
   const [error, setError] = useState(false);
+
+  const [page, setPage] = useState(1);
+
+  function prevPage() {
+    if (page === 1) {
+      return;
+    }
+
+    const pageNumber = page - 1;
+    setPage(pageNumber);
+    loadListOrders(pageNumber);
+  }
+
+  function nextPage() {
+    if (sizeList < 20) {
+      return;
+    }
+
+    const pageNumber = page + 1;
+
+    setPage(pageNumber);
+    loadListOrders(pageNumber);
+  }
+
   async function loadListOrders(page) {
     try {
       setLoading(true);
@@ -39,7 +63,7 @@ export default function Orders() {
   }
 
   useEffect(() => {
-    loadListOrders(1);
+    loadListOrders(page);
   }, []);
 
   return (
@@ -133,7 +157,24 @@ export default function Orders() {
       )}
 
       {sizeList > 0 && !loading && (
-        <Pagination loadItems={loadListOrders} itemsLenght={sizeList} />
+        <Pagination>
+          <span
+            onClick={() => {
+              prevPage();
+              loadListOrders(page);
+            }}
+          >
+            <MdChevronLeft color="#ccc" size={20} />
+          </span>
+          <span
+            onClick={() => {
+              nextPage();
+              loadListOrders(page);
+            }}
+          >
+            <MdChevronRight color="#ccc" size={20} />
+          </span>
+        </Pagination>
       )}
 
       {error && !loading && (
