@@ -11,7 +11,7 @@ export const PageButton = styled.button`
   border-radius: 4px;
   border: 0;
   margin: 10px;
-  background: #7d40e7;
+  background: #ccc;
   color: #fff;
 
   :hover {
