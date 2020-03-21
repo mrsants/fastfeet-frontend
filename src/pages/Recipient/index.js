@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { FaCircle, FaEllipsisH, FaPlus } from "react-icons/fa";
-import { MdSearch, MdChevronLeft, MdChevronRight } from "react-icons/md";
+import { FaEllipsisH, FaPlus } from "react-icons/fa";
+import { MdChevronLeft, MdChevronRight, MdSearch } from "react-icons/md";
 import { Link } from "react-router-dom/cjs/react-router-dom";
-import { isNull } from "util";
 import api from "../../services/auth";
-import { Container, DotStatus, ListOrders, Pagination } from "./styles";
+import { Container, Pagination, Table } from "./styles";
 
-export default function Orders() {
-  const [listOrders, setListOrders] = useState([]);
+export default function Recipient() {
+  const [listRecipient, setListRecipient] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [nameProduct, setNameProduct] = useState("");
+  const [name, setName] = useState("");
   const [sizeList, setSizeList] = useState(0);
   const [error, setError] = useState(false);
 
@@ -22,7 +21,7 @@ export default function Orders() {
 
     const pageNumber = page - 1;
     setPage(pageNumber);
-    loadListOrders(pageNumber);
+    loadListRecipient(pageNumber);
   }
 
   function nextPage() {
@@ -33,28 +32,25 @@ export default function Orders() {
     const pageNumber = page + 1;
 
     setPage(pageNumber);
-    loadListOrders(pageNumber);
+    loadListRecipient(pageNumber);
   }
 
-  async function loadListOrders(page) {
+  async function loadListRecipient(page) {
     try {
       setLoading(true);
 
-      const response = await api.get(
-        `/order-management?product=${nameProduct}`,
-        {
-          params: {
-            page
-          }
+      const response = await api.get(`/deliverymans?name=${name}`, {
+        params: {
+          page
         }
-      );
+      });
 
       const data = response.data.map(order => ({
         ...order
       }));
 
       setSizeList(response.data.length);
-      setListOrders(data);
+      setListRecipient(data);
       setLoading(false);
     } catch (err) {
       setError(true);
@@ -63,23 +59,23 @@ export default function Orders() {
   }
 
   useEffect(() => {
-    loadListOrders(page);
+    loadListRecipient(page);
   }, []);
 
   return (
     <Container>
-      <h2>Gerenciando encomendas</h2>
+      <h2>Gerenciando destinatários</h2>
       <div className="content-header">
         <div className="search">
           <MdSearch size={20} color="#999" />
           <input
             onChange={e => {
               e.preventDefault();
-              setNameProduct(e.target.value);
-              loadListOrders();
+              setName(e.target.value);
+              loadListRecipient();
             }}
             type="text"
-            placeholder="Buscar por encomendas"
+            placeholder="Buscar por entregadores"
             disabled={error}
           />
         </div>
@@ -91,50 +87,26 @@ export default function Orders() {
       </div>
 
       {sizeList > 0 && (
-        <ListOrders>
+        <Table>
           <table>
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Destinatário</th>
-                <th>Entregador</th>
-                <th>Cidade</th>
-                <th>Estado</th>
-                <th>Status</th>
+                <th>Nome</th>
+                <th>deliverymans</th>
                 <th>Ações</th>
               </tr>
             </thead>
             <tbody>
-              {listOrders.map((order, index) => {
+              {listRecipient.map((delivery, index) => {
                 return (
                   <tr key={index}>
-                    <td>#{order.id}</td>
-                    <td>{order.recipients.name}</td>
-                    <td className="avatar-uui">
-                      <img src={order.deliverymans.avatar.url} />
-                      <span>{order.deliverymans.name}</span>
+                    <td>#{delivery.id}</td>
+                    <td>
+                      <img src={delivery.avatar.url} />
                     </td>
-                    <td>{order.recipients.city}</td>
-                    <td>{order.recipients.state}</td>
-                    <td className="deliver">
-                      <DotStatus
-                        backgroundColor={
-                          (order.status === "PENDENTE" && "#F0F0DF") ||
-                          (order.status === "CANCELADA" && "#FAB0B0") ||
-                          (order.status === "ENTREGUE" && "#DFF0DF") ||
-                          (order.status === "RETIRADA" && "#BAD2FF")
-                        }
-                        color={
-                          (order.status === "PENDENTE" && "#C1BC35") ||
-                          (order.status === "CANCELADA" && "#DE3B3B") ||
-                          (order.status === "ENTREGUE" && "#2CA42B") ||
-                          (order.status === "RETIRADA" && "#4D85EE")
-                        }
-                      >
-                        <FaCircle size="10" />
-                        <strong>{order.status}</strong>
-                      </DotStatus>
-                    </td>
+                    <td>{delivery.name}</td>
+                    <td>{delivery.email}</td>
                     <td>
                       <FaEllipsisH color="#C6C6C6" size="10" opacity="1" />
                     </td>
@@ -143,12 +115,12 @@ export default function Orders() {
               })}
             </tbody>
           </table>
-        </ListOrders>
+        </Table>
       )}
 
       {!sizeList && !loading && !error && (
         <div className="message">
-          <strong>Não foi encontrado encomendas para o periodo!</strong>
+          <strong>Não foi encontrado entregadores para o periodo!</strong>
         </div>
       )}
 
@@ -157,7 +129,7 @@ export default function Orders() {
           <span
             onClick={() => {
               prevPage();
-              loadListOrders(page);
+              loadListRecipient(page);
             }}
           >
             <MdChevronLeft color="#ccc" size={20} />
@@ -165,7 +137,7 @@ export default function Orders() {
           <span
             onClick={() => {
               nextPage();
-              loadListOrders(page);
+              loadListRecipient(page);
             }}
           >
             <MdChevronRight color="#ccc" size={20} />

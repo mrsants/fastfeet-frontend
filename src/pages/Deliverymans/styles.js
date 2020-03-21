@@ -78,7 +78,7 @@ export const Container = styled.div`
   }
 `;
 
-export const ListOrders = styled.div`
+export const Table = styled.div`
   margin-top: 22px;
   table {
     width: 100%;
@@ -121,27 +121,10 @@ export const ListOrders = styled.div`
           padding: 8px;
           border-spacing: none;
 
-          &.avatar-uui {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            img {
-              width: 35px;
-              height: 35px;
-              border-radius: 50%;
-            }
-            span {
-              margin-left: 4px;
-            }
-          }
-
-          &.deliver {
-            letter-spacing: 0;
-            opacity: 1;
-            font-size: 12px;
-            strong {
-              margin-left: 2px;
-            }
+          img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
           }
         }
       }

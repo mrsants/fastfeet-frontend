@@ -18,7 +18,7 @@ class Header extends Component {
         {
           id: 2,
           description: "ENTREGADORES",
-          path: "/delivers"
+          path: "/deliverymans"
         },
         {
           id: 3,
