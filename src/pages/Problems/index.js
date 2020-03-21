@@ -5,13 +5,11 @@ import { Link } from "react-router-dom/cjs/react-router-dom";
 import api from "../../services/auth";
 import { Container, Pagination, Table } from "./styles";
 
-export default function Recipient() {
-  const [listRecipient, setListRecipient] = useState([]);
+export default function Problems() {
+  const [listProblems, setListProblems] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [name, setName] = useState("");
   const [sizeList, setSizeList] = useState(0);
   const [error, setError] = useState(false);
-
   const [page, setPage] = useState(1);
 
   function prevPage() {
@@ -21,7 +19,7 @@ export default function Recipient() {
 
     const pageNumber = page - 1;
     setPage(pageNumber);
-    loadListRecipient(pageNumber);
+    loadListProblems(pageNumber);
   }
 
   function nextPage() {
@@ -32,14 +30,14 @@ export default function Recipient() {
     const pageNumber = page + 1;
 
     setPage(pageNumber);
-    loadListRecipient(pageNumber);
+    loadListProblems(pageNumber);
   }
 
-  async function loadListRecipient(page) {
+  async function loadListProblems(page) {
     try {
       setLoading(true);
 
-      const response = await api.get(`/recipient?name=${name}`, {
+      const response = await api.get(`/problems`, {
         params: {
           page
         }
@@ -50,7 +48,7 @@ export default function Recipient() {
       }));
 
       setSizeList(response.data.length);
-      setListRecipient(data);
+      setListProblems(data);
       setLoading(false);
     } catch (err) {
       setError(true);
@@ -59,33 +57,12 @@ export default function Recipient() {
   }
 
   useEffect(() => {
-    loadListRecipient(page);
+    loadListProblems(page);
   }, []);
 
   return (
     <Container>
-      <h2>Gerenciando destinatários</h2>
-      <div className="content-header">
-        <div className="search">
-          <MdSearch size={20} color="#999" />
-          <input
-            onChange={e => {
-              e.preventDefault();
-              setName(e.target.value);
-              loadListRecipient();
-            }}
-            type="text"
-            placeholder="Buscar por destinatários"
-            disabled={error}
-          />
-        </div>
-
-        <Link className="register-redirect" to="/order-register">
-          <FaPlus color="#ffffff" opacity="1" />
-          <span>CADASTRAR</span>
-        </Link>
-      </div>
-
+      <h2>Problemas na entrega</h2>
       {sizeList > 0 && (
         <Table>
           <table>
@@ -98,12 +75,12 @@ export default function Recipient() {
               </tr>
             </thead>
             <tbody>
-              {listRecipient.map((recipient, index) => {
+              {listProblems.map((Problems, index) => {
                 return (
                   <tr key={index}>
-                    <td>#{recipient.id}</td>
-                    <td>{recipient.name}</td>
-                    <td>{`${recipient.street}, ${recipient.number}, ${recipient.city}, ${recipient.state}`}</td>
+                    <td>#{Problems.id}</td>
+                    <td>{Problems.name}</td>
+                    <td>{`${Problems.street}, ${Problems.number}, ${Problems.city}, ${Problems.state}`}</td>
                     <td>
                       <FaEllipsisH color="#C6C6C6" size="10" opacity="1" />
                     </td>
@@ -117,7 +94,7 @@ export default function Recipient() {
 
       {!sizeList && !loading && !error && (
         <div className="message">
-          <strong>Não foi encontrado nenhum destino para o periodo!</strong>
+          <strong>Não foi encontrado problemas de entregas para o periodo!</strong>
         </div>
       )}
 
@@ -126,7 +103,7 @@ export default function Recipient() {
           <span
             onClick={() => {
               prevPage();
-              loadListRecipient(page);
+              loadListProblems(page);
             }}
           >
             <MdChevronLeft color="#ccc" size={20} />
@@ -134,7 +111,7 @@ export default function Recipient() {
           <span
             onClick={() => {
               nextPage();
-              loadListRecipient(page);
+              loadListProblems(page);
             }}
           >
             <MdChevronRight color="#ccc" size={20} />
