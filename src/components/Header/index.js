@@ -11,22 +11,22 @@ class Header extends Component {
     menu: {
       controls: [
         {
-          id: 1,
+          id: 0,
           description: "ENCOMENDAS",
           path: "/orders"
         },
         {
-          id: 2,
+          id: 1,
           description: "ENTREGADORES",
           path: "/deliverymans"
         },
         {
-          id: 3,
+          id: 2,
           description: "DESTINATÁRIOS",
           path: "/recipient"
         },
         {
-          id: 4,
+          id: 3,
           description: "PROBLEMAS",
           path: "/problems"
         }
@@ -38,16 +38,27 @@ class Header extends Component {
     }
   };
 
-  componentDidMount() {
-    console.log(this.props);
-  }
   redirectTo() {
     const { signOut } = this.props;
     signOut();
   }
 
+  componentDidMount() {
+    let updatePath = this.state.menu.controls.filter((menuFindItem, index) => {
+      return menuFindItem.path === history.location.pathname;
+    });
+
+    this.setState({
+      font: {
+        index: updatePath[0].id
+      }
+    });
+  }
+
   render() {
-    const { user } = this.props.auth;
+    const { auth } = this.props;
+    const { menu } = this.state;
+
     return (
       <Container>
         <Menu>
@@ -58,7 +69,7 @@ class Header extends Component {
               history.push("/orders");
             }}
           />
-          {this.state.menu.controls.map((menuItem, index) => {
+          {menu.controls.map((menuItem, index) => {
             return (
               <MenuItem
                 key={menuItem.id}
@@ -71,7 +82,6 @@ class Header extends Component {
                       index
                     }
                   });
-
                   history.push(menuItem.path);
                 }}
               >
@@ -82,7 +92,7 @@ class Header extends Component {
         </Menu>
 
         <Config>
-          <strong>{user.name}</strong>
+          <strong>{auth.user.name}</strong>
           <span onClick={() => this.redirectTo()}>sair do sistema</span>
         </Config>
       </Container>

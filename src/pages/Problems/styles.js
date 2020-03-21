@@ -90,7 +90,6 @@ export const Table = styled.div`
         th {
           font-size: 14px;
           font-weight: bold;
-          text-align: center;
           letter-spacing: 0;
           color: #444444;
           opacity: 1;
@@ -113,26 +112,30 @@ export const Table = styled.div`
           background: #ffffff 0% 0% no-repeat padding-box;
           opacity: 1;
           border: none;
-          text-align: center;
           letter-spacing: 0;
           color: #666666;
           opacity: 1;
           font-size: 14px;
-          padding: 8px;
+          padding-top: 8px;
+          padding-bottom: 8px;
           border-spacing: none;
-
           img {
             width: 35px;
             height: 35px;
             border-radius: 50%;
           }
+
+          &:first-child {
+            text-align: left;
+            padding-left: 25px;
+          }
+          &:last-child {
+            text-align: right;
+            padding-right: 25px;
+          }
         }
       }
 
-      td:last-child {
-        text-align: right;
-        padding-right: 25px;
-      }
     }
   }
 `;

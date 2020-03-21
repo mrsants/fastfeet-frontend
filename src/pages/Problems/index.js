@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { FaEllipsisH, FaPlus } from "react-icons/fa";
-import { MdChevronLeft, MdChevronRight, MdSearch } from "react-icons/md";
-import { Link } from "react-router-dom/cjs/react-router-dom";
+import { FaEllipsisH } from "react-icons/fa";
+import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import api from "../../services/auth";
 import { Container, Pagination, Table } from "./styles";
 
@@ -68,19 +67,17 @@ export default function Problems() {
           <table>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Endereço</th>
+                <th>Encomenda</th>
+                <th>Problema</th>
                 <th>Ações</th>
               </tr>
             </thead>
             <tbody>
-              {listProblems.map((Problems, index) => {
+              {listProblems.map((problem, index) => {
                 return (
                   <tr key={index}>
-                    <td>#{Problems.id}</td>
-                    <td>{Problems.name}</td>
-                    <td>{`${Problems.street}, ${Problems.number}, ${Problems.city}, ${Problems.state}`}</td>
+                    <td>#{problem.id}</td>
+                    <td>{problem.description}</td>
                     <td>
                       <FaEllipsisH color="#C6C6C6" size="10" opacity="1" />
                     </td>
