@@ -1,9 +1,10 @@
 import React from "react";
 import { Switch } from "react-router-dom";
 import Deliverymans from "../pages/Deliverymans";
+import DeliverymansRegister from "../pages/Deliverymans/DeliverymansRegister";
 import Login from "../pages/Login";
-import OrderRegister from "../pages/OrderRegister";
 import Orders from "../pages/Orders";
+import OrderRegister from "../pages/Orders/OrderRegister";
 import Problems from "../pages/Problems";
 import Recipient from "../pages/Recipient";
 import Route from "./Route";
@@ -25,6 +26,11 @@ export default function Routes() {
       <Route
         path="/deliverymans"
         component={props => <Deliverymans {...props} />}
+        isPrivate
+      />
+      <Route
+        path="/deliverymans-register"
+        component={props => <DeliverymansRegister {...props} />}
         isPrivate
       />
       <Route

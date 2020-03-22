@@ -6,7 +6,7 @@ import React, { useEffect, useRef, useState } from "react";
 /**
  * Services
  */
-import api from "../../../services/api";
+import api from "../../../../services/api";
 /**
  * StyleSheet
  */
@@ -24,6 +24,17 @@ export default function DeliverymanInput({
   multiple,
   ...rest
 }) {
+  const style = {
+    control: (base, state) => ({
+      ...base,
+      border: "1px solid #dddddd",
+      boxShadow: "none",
+      "&:hover": {
+        border: "1px solid #dddddd"
+      }
+    })
+  };
+
   const [deliverymen, setDeliverymen] = useState([]);
 
   const deliverymanRef = useRef(null);
@@ -60,7 +71,7 @@ export default function DeliverymanInput({
 
   useEffect(() => {
     registerField({
-      name: "deliveryman_id",
+      name: "deliveryman",
       ref: deliverymanRef.current,
       path: "select.state.value",
       getValue: ref => {
@@ -85,8 +96,9 @@ export default function DeliverymanInput({
       defaultOptions={deliverymen}
       loadOptions={promiseOptions}
       defaultValue={defaultValue}
-      placeholder="Entregador exemplo "
+      placeholder="Digite o nome do entregador"
       ref={deliverymanRef}
+      styles={style}
       classNamePrefix="react-select"
       {...rest}
     />

@@ -1,10 +1,26 @@
+/**
+ * Modules
+ */
 import React, { useEffect, useState } from "react";
 import { FaEllipsisH, FaPlus } from "react-icons/fa";
 import { MdChevronLeft, MdChevronRight, MdSearch } from "react-icons/md";
 import { Link } from "react-router-dom/cjs/react-router-dom";
+
+/**
+ * Services
+ */
 import api from "../../services/api";
+
+/**
+ * Stylesheet
+ */
 import { Container, Pagination, Table } from "./styles";
 
+/**
+ * @function <FunctionComponentElement> Deliverymans
+ * @param {*} rest
+ * @returns {ReactDOM} Returns a form to create a deliverymans
+ */
 export default function Deliverymans() {
   const [listDeliverymans, setListDeliverymans] = useState([]);
   const [name, setName] = useState("");
@@ -76,7 +92,7 @@ export default function Deliverymans() {
           />
         </div>
 
-        <Link className="register-redirect" to="/order-register">
+        <Link className="register-redirect" to="/deliverymans-register">
           <FaPlus color="#ffffff" opacity="1" />
           <span>CADASTRAR</span>
         </Link>

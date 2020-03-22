@@ -6,7 +6,8 @@ import React, { useEffect, useRef, useState } from "react";
 /**
  * Services
  */
-import api from "../../../services/api";
+import api from "../../../../services/api";
+
 /**
  * StyleSheet
  */
@@ -24,6 +25,17 @@ export default function RecipientInput({
   multiple,
   ...rest
 }) {
+  const style = {
+    control: (base, state) => ({
+      ...base,
+      border: "1px solid #dddddd",
+      boxShadow: "none",
+      "&:hover": {
+        border: "1px solid #dddddd"
+      }
+    })
+  };
+
   const [recipient, setRecipient] = useState([]);
 
   const recipientRef = useRef(null);
@@ -60,7 +72,7 @@ export default function RecipientInput({
 
   useEffect(() => {
     registerField({
-      name: "recipient_id",
+      name: "recipient",
       ref: recipientRef.current,
       path: "select.state.value",
       getValue: ref => {
@@ -85,8 +97,9 @@ export default function RecipientInput({
       defaultOptions={recipient}
       loadOptions={promiseOptions}
       defaultValue={defaultValue}
-      placeholder="Entregador"
+      placeholder="Digite o nome do destinário"
       ref={recipientRef}
+      styles={style}
       classNamePrefix="react-select"
       {...rest}
     />

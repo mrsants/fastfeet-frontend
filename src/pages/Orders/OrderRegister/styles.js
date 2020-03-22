@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import { Input } from "@rocketseat/unform";
+import styled from "styled-components";
 
 export const Container = styled.div`
   margin-top: 34px;
@@ -24,6 +24,7 @@ export const Container = styled.div`
     top: 150px;
     left: 270px;
     margin: 0 auto;
+    width: 900px;
 
     label {
       font-weight: bold;

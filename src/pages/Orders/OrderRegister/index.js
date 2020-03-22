@@ -5,13 +5,13 @@ import { Form } from "@rocketseat/unform";
 import React from "react";
 import { FaCheck, FaChevronLeft } from "react-icons/fa";
 import { toast } from "react-toastify";
-
+import * as Yup from "yup";
 /**
  * Services
  */
-import api from "../../services/api";
-import history from "../../services/history";
 
+import history from "../../../services/history";
+import api from "../../../services/api";
 /**
  * Components
  */
@@ -28,11 +28,11 @@ import { ButtonBack, ButtonSave, Container, StyledInput } from "./styles";
  * @param {*} rest
  * @returns {ReactDOM} Returns a form to create a delivery schedule
  */
-async function handleSubmit({ recipient_id, deliveryman_id, product }) {
+async function handleSubmit({ recipient, deliveryman, product }) {
   try {
     await api.post("/order-management", {
-      recipient_id: recipient_id.value,
-      deliveryman_id: deliveryman_id.value,
+      recipient: recipient.value,
+      deliveryman: deliveryman.value,
       product
     });
     toast.success("Order created successful");
@@ -43,7 +43,6 @@ async function handleSubmit({ recipient_id, deliveryman_id, product }) {
 }
 
 export default function OrderRegister() {
-
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
@@ -70,12 +69,12 @@ export default function OrderRegister() {
           <div className="primary-group">
             <div className="form-group">
               <label>Destinatário</label> <br />
-              <RecipientInput name="recipient_id" />
+              <RecipientInput name="recipient" />
             </div>
             <div className="form-group mbl-30">
               <label>Entregador</label>
               <br />
-              <DeliverymanInput name="deliveryman_id" />
+              <DeliverymanInput name="deliveryman" />
             </div>
           </div>
           <div className="form-group mbt-16">
@@ -83,7 +82,7 @@ export default function OrderRegister() {
             <br />
             <StyledInput
               name="product"
-              placeholder="Digite o produto"
+              placeholder="Digite o nome do produto"
             ></StyledInput>
           </div>
         </div>
