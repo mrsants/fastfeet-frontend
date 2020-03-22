@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { FaEllipsisH, FaPlus } from "react-icons/fa";
 import { MdChevronLeft, MdChevronRight, MdSearch } from "react-icons/md";
 import { Link } from "react-router-dom/cjs/react-router-dom";
-import api from "../../services/auth";
+import api from "../../services/api";
 import { Container, Pagination, Table } from "./styles";
 
 export default function Deliverymans() {
   const [listDeliverymans, setListDeliverymans] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [sizeList, setSizeList] = useState(0);
   const [error, setError] = useState(false);
@@ -37,7 +36,6 @@ export default function Deliverymans() {
 
   async function loadListDeliverymans(page) {
     try {
-      setLoading(true);
 
       const response = await api.get(`/deliverymans?name=${name}`, {
         params: {
@@ -51,16 +49,14 @@ export default function Deliverymans() {
 
       setSizeList(response.data.length);
       setListDeliverymans(data);
-      setLoading(false);
     } catch (err) {
       setError(true);
-      setLoading(false);
     }
   }
 
   useEffect(() => {
-    loadListDeliverymans(page);
-  }, []);
+    loadListDeliverymans(1);
+  });
 
   return (
     <Container>
@@ -104,7 +100,10 @@ export default function Deliverymans() {
                   <tr key={index}>
                     <td>#{delivery.id}</td>
                     <td>
-                      <img src={delivery.avatar.url} />
+                      <img
+                        src={delivery.avatar.url}
+                        alt="Avatar do entregador"
+                      />
                     </td>
                     <td>{delivery.name}</td>
                     <td>{delivery.email}</td>
@@ -119,13 +118,13 @@ export default function Deliverymans() {
         </Table>
       )}
 
-      {!sizeList && !loading && !error && (
+      {!sizeList && !error && (
         <div className="message">
           <strong>Não foi encontrado entregadores para o periodo!</strong>
         </div>
       )}
 
-      {sizeList > 0 && !loading && (
+      {sizeList > 0 && (
         <Pagination>
           <span
             onClick={() => {
@@ -146,7 +145,7 @@ export default function Deliverymans() {
         </Pagination>
       )}
 
-      {error && !loading && (
+      {error && (
         <div className="message">
           <strong>
             Ocorreu um erro, por favor tente mais tarde novamente!

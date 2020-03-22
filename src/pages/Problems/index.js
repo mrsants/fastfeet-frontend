@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaEllipsisH } from "react-icons/fa";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
-import api from "../../services/auth";
+import api from "../../services/api";
 import { Container, Pagination, Table } from "./styles";
 
 export default function Problems() {
@@ -56,8 +56,8 @@ export default function Problems() {
   }
 
   useEffect(() => {
-    loadListProblems(page);
-  }, []);
+    loadListProblems(1);
+  });
 
   return (
     <Container>

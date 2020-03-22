@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Input } from "@rocketseat/unform";
 
 export const Container = styled.div`
   margin-top: 34px;
@@ -50,29 +51,11 @@ export const Container = styled.div`
           margin-top: 16px;
         }
 
-        input {
-          background: #ffffff 0% 0% no-repeat padding-box;
-          border: 1px solid #dddddd;
-          border-radius: 4px;
-          opacity: 1;
-          height: 36px;
-          padding: 4px;
-          width: 100%;
-          margin-top: 10px;
-          &::placeholder {
-            text-align: left;
-            letter-spacing: 0;
-            color: #999999;
-            opacity: 1;
-          }
-        }
-
         span {
           line-height: 22px;
           font-weight: bold;
           color: #de3b3b;
         }
-        
       }
 
       margin-top: 10px;
@@ -94,11 +77,11 @@ export const Container = styled.div`
   }
 `;
 
-export const ButtonGeneric = styled.button`
+export const ButtonSave = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${props => props.color};
+  background: #7d40e7;
   border-radius: 4px;
   opacity: 1;
   padding: 4px;
@@ -113,5 +96,44 @@ export const ButtonGeneric = styled.button`
     opacity: 1;
     font-size: 14px;
     margin-left: 6px;
+  }
+`;
+
+export const ButtonBack = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #cccccc;
+  border-radius: 4px;
+  opacity: 1;
+  padding: 4px;
+  width: 142px;
+  height: 36px;
+
+  span {
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 0;
+    color: #ffffff;
+    opacity: 1;
+    font-size: 14px;
+    margin-left: 6px;
+  }
+`;
+
+export const StyledInput = styled(Input)`
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  opacity: 1;
+  height: 38px;
+  padding: 4px;
+  width: 100%;
+  margin-top: 10px;
+  &::placeholder {
+    text-align: left;
+    letter-spacing: 0;
+    color: #999999;
+    opacity: 1;
   }
 `;

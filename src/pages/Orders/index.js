@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FaCircle, FaEllipsisH, FaPlus } from "react-icons/fa";
-import { MdSearch, MdChevronLeft, MdChevronRight } from "react-icons/md";
+import { MdChevronLeft, MdChevronRight, MdSearch } from "react-icons/md";
 import { Link } from "react-router-dom/cjs/react-router-dom";
-import { isNull } from "util";
-import api from "../../services/auth";
+import api from "../../services/api";
 import { Container, DotStatus, ListOrders, Pagination } from "./styles";
 
 export default function Orders() {
@@ -63,7 +62,7 @@ export default function Orders() {
   }
 
   useEffect(() => {
-    loadListOrders(page);
+    loadListOrders(1);
   }, []);
 
   return (
@@ -111,7 +110,10 @@ export default function Orders() {
                     <td>#{order.id}</td>
                     <td>{order.recipients.name}</td>
                     <td className="avatar-uui">
-                      <img src={order.deliverymans.avatar.url} />
+                      <img
+                        src={order.deliverymans.avatar.url}
+                        alt="Avatar do entregador"
+                      />
                       <span>{order.deliverymans.name}</span>
                     </td>
                     <td>{order.recipients.city}</td>

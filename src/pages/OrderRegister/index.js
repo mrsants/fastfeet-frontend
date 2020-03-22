@@ -1,30 +1,56 @@
-import { Form, Input } from "@rocketseat/unform";
+/**
+ * Modules
+ */
+import { Form } from "@rocketseat/unform";
 import React from "react";
 import { FaCheck, FaChevronLeft } from "react-icons/fa";
-import * as Yup from "yup";
-import history from "../../services/history";
-import { ButtonGeneric, Container } from "./styles";
-const colorBack = `#cccccc 0% 0% no-repeat padding-box;`;
-const colorDefault = `#7d40e7 0% 0% no-repeat padding-box;`;
+import { toast } from "react-toastify";
 
-const schema = Yup.object().shape({
-  recipient: Yup.string().required("O destinário é obrigatóorio"),
-  deliver: Yup.string().required("O entregador é obrigatóorio"),
-  product: Yup.string().required("O produto é obrigatóorio")
-});
+/**
+ * Services
+ */
+import api from "../../services/api";
+import history from "../../services/history";
+
+/**
+ * Components
+ */
+import DeliverymanInput from "./DeliverymanInput";
+import RecipientInput from "./RecipientInput";
+
+/**
+ * StyleSheet
+ */
+import { ButtonBack, ButtonSave, Container, StyledInput } from "./styles";
+
+/**
+ * @function <FunctionComponentElement> OrderRegister
+ * @param {*} rest
+ * @returns {ReactDOM} Returns a form to create a delivery schedule
+ */
+async function handleSubmit({ recipient_id, deliveryman_id, product }) {
+  try {
+    await api.post("/order-management", {
+      recipient_id: recipient_id.value,
+      deliveryman_id: deliveryman_id.value,
+      product
+    });
+    toast.success("Order created successful");
+    history.push("/orders");
+  } catch ({ response }) {
+    toast.error(response.data.error);
+  }
+}
 
 export default function OrderRegister() {
-  function handleSubmit({ recipient, deliver, product }) {
-    console.log(recipient, deliver, product);
-  }
+
   return (
     <Container>
-      <Form schema={schema} onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <div className="flex-justify-between">
           <h2>Cadastro de encomendas</h2>
           <div className="flex-justify-between">
-            <ButtonGeneric
-              color={colorBack}
+            <ButtonBack
               onClick={e => {
                 e.preventDefault();
                 history.push("/orders");
@@ -32,30 +58,33 @@ export default function OrderRegister() {
             >
               <FaChevronLeft color="#fff" />
               <span>VOLTAR</span>
-            </ButtonGeneric>
-            <ButtonGeneric color={colorDefault} className="mbl-16">
+            </ButtonBack>
+            <ButtonSave className="mbl-16" type="submit">
               <FaCheck color="#fff" />
               <span>SALVAR</span>
-            </ButtonGeneric>
+            </ButtonSave>
           </div>
         </div>
+
         <div className="group">
           <div className="primary-group">
             <div className="form-group">
               <label>Destinatário</label> <br />
-              <Input name="recipient" placeholder="Digite o destinário"></Input>
+              <RecipientInput name="recipient_id" />
             </div>
             <div className="form-group mbl-30">
               <label>Entregador</label>
               <br />
-              <Input name="deliver" placeholder="Digite o entregador"></Input>
+              <DeliverymanInput name="deliveryman_id" />
             </div>
           </div>
-
           <div className="form-group mbt-16">
             <label>Nome do produto</label>
             <br />
-            <Input name="product" placeholder="Digite o produto"></Input>
+            <StyledInput
+              name="product"
+              placeholder="Digite o produto"
+            ></StyledInput>
           </div>
         </div>
       </Form>

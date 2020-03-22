@@ -50,7 +50,7 @@ class Header extends Component {
 
     this.setState({
       font: {
-        index: updatePath[0].id
+        index: updatePath[0] && updatePath[0].id
       }
     });
   }

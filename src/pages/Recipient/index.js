@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { FaEllipsisH, FaPlus } from "react-icons/fa";
 import { MdChevronLeft, MdChevronRight, MdSearch } from "react-icons/md";
 import { Link } from "react-router-dom/cjs/react-router-dom";
-import api from "../../services/auth";
+import api from "../../services/api";
 import { Container, Pagination, Table } from "./styles";
 
 export default function Recipient() {
   const [listRecipient, setListRecipient] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [sizeList, setSizeList] = useState(0);
   const [error, setError] = useState(false);
@@ -37,7 +36,6 @@ export default function Recipient() {
 
   async function loadListRecipient(page) {
     try {
-      setLoading(true);
 
       const response = await api.get(`/recipient?name=${name}`, {
         params: {
@@ -51,16 +49,14 @@ export default function Recipient() {
 
       setSizeList(response.data.length);
       setListRecipient(data);
-      setLoading(false);
     } catch (err) {
       setError(true);
-      setLoading(false);
     }
   }
 
   useEffect(() => {
-    loadListRecipient(page);
-  }, []);
+    loadListRecipient(1);
+  });
 
   return (
     <Container>
@@ -115,13 +111,13 @@ export default function Recipient() {
         </Table>
       )}
 
-      {!sizeList && !loading && !error && (
+      {!sizeList && !error && (
         <div className="message">
           <strong>Não foi encontrado nenhum destino para o periodo!</strong>
         </div>
       )}
 
-      {sizeList > 0 && !loading && (
+      {sizeList > 0 && (
         <Pagination>
           <span
             onClick={() => {
@@ -142,7 +138,7 @@ export default function Recipient() {
         </Pagination>
       )}
 
-      {error && !loading && (
+      {error && (
         <div className="message">
           <strong>
             Ocorreu um erro, por favor tente mais tarde novamente!

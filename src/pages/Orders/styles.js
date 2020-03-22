@@ -164,8 +164,11 @@ export const DotStatus = styled.span`
 
 export const Pagination = styled.div`
   margin-top: 5px;
-  display: flex;
-  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 10px;
+  transform: translateX(-50%);
+  left: 50%;
   span {
     cursor: pointer;
     color: black;
