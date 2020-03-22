@@ -16,7 +16,6 @@ import history from "../../../services/history";
  */
 import { ButtonBack, ButtonSave, Container, StyledInput } from "./styles";
 
-
 const schema = Yup.object().shape({
   name: Yup.string().required("O nome é obrigatório"),
   street: Yup.string().required("A rua é obrigatória"),
@@ -89,17 +88,16 @@ export default function RecipientRegister() {
         <>
           <div className="form-group">
             <label>Nome</label> <br />
-            <StyledInput name="name" />
+            <StyledInput name="name" placeholder="Digite seu nome" />
           </div>
-
           <div className="flex mbt-16">
             <div className="grow2">
               <label>Rua</label> <br />
-              <StyledInput name="name" placeholder="Digite seu nome" />
+              <StyledInput name="street" placeholder="Digite sua rua" />
             </div>
             <div className="grow0 mbl-16 mbr-16">
               <label>Número</label> <br />
-              <StyledInput name="number"  placeholder="Digite seu nome"  />
+              <StyledInput name="number" placeholder="Digite seu nome" />
             </div>
             <div className="grow0">
               <label>Complemento</label> <br />
