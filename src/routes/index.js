@@ -8,6 +8,7 @@ import OrderRegister from "../pages/Orders/OrderRegister";
 import Problems from "../pages/Problems";
 import Recipient from "../pages/Recipient";
 import Route from "./Route";
+import RecipientRegister from "../pages/Recipient/RecipientRegister";
 
 export default function Routes() {
   return (
@@ -38,6 +39,12 @@ export default function Routes() {
         component={props => <Recipient {...props} />}
         isPrivate
       />
+      <Route
+        path="/recipient-register"
+        component={props => <RecipientRegister {...props} />}
+        isPrivate
+      />
+
       <Route
         path="/problems"
         component={props => <Problems {...props} />}

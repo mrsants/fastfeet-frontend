@@ -76,7 +76,7 @@ export default function Recipient() {
           />
         </div>
 
-        <Link className="register-redirect" to="/order-register">
+        <Link className="register-redirect" to="/recipient-register">
           <FaPlus color="#ffffff" opacity="1" />
           <span>CADASTRAR</span>
         </Link>
