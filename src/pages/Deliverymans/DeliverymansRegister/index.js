@@ -6,6 +6,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { FaCheck, FaChevronLeft } from "react-icons/fa";
 import { IoMdImage } from "react-icons/io";
 import { toast } from "react-toastify";
+import { isNullOrUndefined } from "util";
 import * as Yup from "yup";
 
 /**
@@ -40,7 +41,7 @@ const schema = Yup.object().shape({
 export default function DeliverymansRegister() {
   const avatarRef = useRef(null);
   const [file, setFile] = useState(null);
-  const [url, setUrl] = useState(null);
+  const [avatar, setAvatar] = useState(null);
   const [upload, setUpload] = useState(false);
   const onButtonClick = async () => {
     avatarRef.current.click();
@@ -65,8 +66,8 @@ export default function DeliverymansRegister() {
             }
           });
 
+          setAvatar(res.data);
           setUpload(true);
-          setUrl(res.data.url);
         } catch (error) {}
       }
     };
@@ -74,7 +75,29 @@ export default function DeliverymansRegister() {
     upload();
   }, [file]);
 
-  const handleSubmit = async ({ name, email }) => {};
+  const handleSubmit = async ({ name, email }) => {
+    if (!isNullOrUndefined(avatar)) {
+      try {
+        const res = await api.post("/deliverymans", {
+          name,
+          email,
+          avatar_id: avatar.id
+        });
+
+        setUpload(true);
+
+        toast.success("Entregador cadastro com sucesso!");
+
+        setTimeout(() => {
+          history.push("/deliverymans");
+        }, 3000);
+      } catch (error) {
+        toast.error("Ocorreu um erro ao criar um entregador!");
+      }
+    } else {
+      toast.error("Por favor nao é possivel criar um perfil sem um avatar");
+    }
+  };
 
   return (
     <Container>
@@ -111,7 +134,7 @@ export default function DeliverymansRegister() {
                 />
               </div>
             )}
-            {upload && <img className="new-avatar" src={url} />}
+            {upload && <img className="new-avatar" src={avatar.url} />}
           </Avatar>
 
           <div className="form-group">
