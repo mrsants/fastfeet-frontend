@@ -32,25 +32,11 @@ const schema = Yup.object().shape({
  * @returns {ReactDOM} Returns a form to register a deliverymans
  */
 export default function RecipientRegister() {
-  const handleSubmit = async ({
-    name,
-    street,
-    number,
-    complement,
-    state,
-    city,
-    zip_code
-  }) => {
+  const handleSubmit = async data => {
     {
       try {
         await api.post("/recipient", {
-          name,
-          street,
-          number,
-          complement,
-          state,
-          city,
-          zip_code
+          ...data
         });
 
         toast.success("Destinário cadastro com sucesso!");
