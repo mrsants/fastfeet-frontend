@@ -57,7 +57,7 @@ export default function Problems() {
 
   useEffect(() => {
     loadListProblems(1);
-  });
+  }, []);
 
   return (
     <Container>
