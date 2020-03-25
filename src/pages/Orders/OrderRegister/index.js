@@ -28,17 +28,17 @@ import { ButtonBack, ButtonSave, Container, StyledInput } from "./styles";
  * @param {*} rest
  * @returns {ReactDOM} Returns a form to create a delivery schedule
  */
-async function handleSubmit({ recipient, deliveryman, product }) {
+async function handleSubmit({ recipient_id, deliveryman_id, product }) {
   try {
     await api.post("/order-management", {
-      recipient: recipient.value,
-      deliveryman: deliveryman.value,
+      recipient_id: recipient_id.value,
+      deliveryman_id: deliveryman_id.value,
       product
     });
-    toast.success("Order created successful");
+    toast.success("Encomenda criada com sucesso!");
     history.push("/orders");
   } catch ({ response }) {
-    toast.error(response.data.error);
+    toast.error("Não foi possivel criar uma encomenda!");
   }
 }
 
@@ -69,12 +69,12 @@ export default function OrderRegister() {
           <div className="primary-group">
             <div className="form-group">
               <label>Destinatário</label> <br />
-              <RecipientInput name="recipient" />
+              <RecipientInput name="recipient_id" />
             </div>
             <div className="form-group mbl-30">
               <label>Entregador</label>
               <br />
-              <DeliverymanInput name="deliveryman" />
+              <DeliverymanInput name="deliveryman_id" />
             </div>
           </div>
           <div className="form-group mbt-16">

@@ -71,7 +71,7 @@ export default function DeliverymanInput({
 
   useEffect(() => {
     registerField({
-      name: "deliveryman",
+      name: "deliveryman_id",
       ref: deliverymanRef.current,
       path: "select.state.value",
       getValue: ref => {

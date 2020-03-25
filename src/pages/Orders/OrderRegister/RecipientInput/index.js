@@ -72,7 +72,7 @@ export default function RecipientInput({
 
   useEffect(() => {
     registerField({
-      name: "recipient",
+      name: "recipient_id",
       ref: recipientRef.current,
       path: "select.state.value",
       getValue: ref => {
