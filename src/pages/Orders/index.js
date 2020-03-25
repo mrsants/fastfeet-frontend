@@ -1,18 +1,53 @@
+/**
+ * Modules
+ */
 import React, { useEffect, useState } from "react";
 import { FaCircle, FaEllipsisH, FaPlus } from "react-icons/fa";
-import { MdChevronLeft, MdChevronRight, MdSearch } from "react-icons/md";
+import {
+  MdChevronLeft,
+  MdDeleteForever,
+  MdModeEdit,
+  MdVisibility,
+  MdChevronRight,
+  MdSearch
+} from "react-icons/md";
 import { Link } from "react-router-dom/cjs/react-router-dom";
-import api from "../../services/api";
-import { Container, DotStatus, ListOrders, Pagination } from "./styles";
 
+/**
+ * Components
+ */
+import EditOrder from "./OrderRegister/EditOrder";
+
+/**
+ * Services
+ */
+import api from "../../services/api";
+
+/**
+ * Stylesheet
+ */
+import {
+  Container,
+  DotStatus,
+  ListOrders,
+  Pagination,
+  ViewEdit
+} from "./styles";
+
+/**
+ * @function <FunctionComponentElement> Orders
+ * @param {*} rest
+ * @returns {ReactDOM} Returns a list of the orders
+ */
 export default function Orders() {
   const [listOrders, setListOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [nameProduct, setNameProduct] = useState("");
   const [sizeList, setSizeList] = useState(0);
   const [error, setError] = useState(false);
-
   const [page, setPage] = useState(1);
+  const [visible, setVisible] = useState(false);
+  const [currentTargetReference, setCurrentTargetReference] = useState(null);
 
   function prevPage() {
     if (page === 1) {
@@ -54,7 +89,7 @@ export default function Orders() {
 
       setSizeList(response.data.length);
       setListOrders(data);
-      setLoading(false);
+      setLoading(null);
     } catch (err) {
       setError(true);
       setLoading(false);
@@ -137,8 +172,48 @@ export default function Orders() {
                         <strong>{order.status}</strong>
                       </DotStatus>
                     </td>
-                    <td>
+                    <td
+                      data-id={index}
+                      onClick={e => {
+                        e.preventDefault();
+
+                        visible && setVisible(false);
+                        !visible && setVisible(true);
+
+                        setCurrentTargetReference(index);
+                      }}
+                    >
                       <FaEllipsisH color="#C6C6C6" size="10" opacity="1" />
+                      {visible && currentTargetReference === index && (
+                        <ViewEdit>
+                          <div
+                            onClick={e => {
+                              e.preventDefault();
+                            }}
+                          >
+                            <MdVisibility size="16" color="#8E5BE8" />
+                            <span>Visualizar</span>
+                          </div>
+                          <div
+                            onClick={e => {
+                              e.preventDefault();
+                            }}
+                          >
+                            <hr />
+                            <MdModeEdit size="16" color="#4D85EE" />
+                            <span>Editar</span>
+                          </div>
+                          <div
+                            onClick={e => {
+                              e.preventDefault();
+                            }}
+                          >
+                            <hr />
+                            <MdDeleteForever size="16" color="#DE3B3B" />
+                            <span>Excluir</span>
+                          </div>
+                        </ViewEdit>
+                      )}
                     </td>
                   </tr>
                 );
