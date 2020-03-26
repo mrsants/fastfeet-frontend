@@ -36,10 +36,6 @@ export const Container = styled.div`
     }
 
     .form-group {
-      &.mbt-16 {
-        margin-top: 16px;
-      }
-
       span {
         line-height: 22px;
         font-weight: bold;
@@ -48,18 +44,6 @@ export const Container = styled.div`
     }
   }
 
-  .flex {
-    display: flex;
-  }
-
-  .flex-justify-between {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .mbl-16 {
-    margin-left: 16px;
-  }
 `;
 
 export const ButtonSave = styled.button`

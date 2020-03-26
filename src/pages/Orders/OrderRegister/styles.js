@@ -40,18 +40,9 @@ export const Container = styled.div`
         display: grid;
         grid-template-columns: 1fr 1fr;
       }
-      .mbl-30 {
-        margin-left: 30px;
-      }
+   
       .form-group {
-        &.mbl-30 {
-          margin-left: 30px;
-        }
-
-        &.mbt-16 {
-          margin-top: 16px;
-        }
-
+      
         span {
           line-height: 22px;
           font-weight: bold;
@@ -64,18 +55,6 @@ export const Container = styled.div`
     }
   }
 
-  .flex {
-    display: flex;
-  }
-
-  .flex-justify-between {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .mbl-16 {
-    margin-left: 16px;
-  }
 `;
 
 export const ButtonSave = styled.button`

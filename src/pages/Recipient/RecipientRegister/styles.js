@@ -47,39 +47,6 @@ export const Container = styled.div`
       }
     }
   }
-
-  .mbl-16 {
-    margin-left: 16px;
-  }
-
-  .mbr-16 {
-    margin-right: 16px;
-  }
-
-  .mbt-16 {
-    margin-top: 16px;
-  }
-
-  .flex {
-    display: flex;
-  }
-
-  .grow0 {
-    flex-grow: 0;
-  }
-
-  .grow1 {
-    flex-grow: 1;
-  }
-
-  .grow2 {
-    flex-grow: 2;
-  }
-
-  .flex-justify-between {
-    display: flex;
-    justify-content: space-between;
-  }
 `;
 
 export const ButtonSave = styled.button`

@@ -143,6 +143,7 @@ export const ListOrders = styled.div`
       }
       td:last-child {
         width: 104px;
+        cursor: pointer;
       }
     }
   }
@@ -173,38 +174,5 @@ export const Pagination = styled.div`
     border: 1px solid #ddd;
     background-color: #f9f9f9;
     margin: 4px;
-  }
-`;
-
-export const ViewEdit = styled.div`
-  position: absolute;
-  width: 150px;
-  height: 120px;
-  background: #ffffff 0% 0% no-repeat padding-box;
-  box-shadow: 0px 0px 2px #00000026;
-  opacity: 1;
-  border-radius: 8px;
-  padding: 10px;
-  text-align: left;
-  right: 220px;
-
-  div {
-    hr {
-      margin-top: 7px;
-      margin-bottom: 7px;
-      border: 1px solid #eeeeee;
-      opacity: 1;
-    }
-
-    span {
-      text-align: left;
-      letter-spacing: 0;
-      color: #999999;
-      opacity: 1;
-      margin-left: 7px;
-      margin-top: 4px;
-      font-size: 16px;
-      cursor: pointer;
-    }
   }
 `;

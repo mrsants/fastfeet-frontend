@@ -132,6 +132,7 @@ export const Table = styled.div`
       td:last-child {
         text-align: right;
         padding-right: 25px;
+        cursor: pointer;
       }
     }
   }
