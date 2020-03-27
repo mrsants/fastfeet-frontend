@@ -1,19 +1,10 @@
 /**
  * Modules
  */
-import Popover from "@material-ui/core/Popover";
 import React, { useEffect, useState } from "react";
 import { FaCircle, FaEllipsisH, FaPlus } from "react-icons/fa";
-import {
-  MdChevronLeft,
-  MdChevronRight,
-  MdDeleteForever,
-  MdEdit,
-  MdRemoveRedEye,
-  MdSearch
-} from "react-icons/md";
+import { MdChevronLeft, MdChevronRight, MdSearch } from "react-icons/md";
 import { Link } from "react-router-dom/cjs/react-router-dom";
-import ModalList from "../../components/ModalList";
 /**
  * Services
  */
@@ -22,6 +13,7 @@ import api from "../../services/api";
  * Stylesheet
  */
 import { Container, DotStatus, ListOrders, Pagination } from "./styles";
+import PopoverList from "../../components/PopoverList";
 
 /**
  * @function <FunctionComponentElement> Orders
@@ -37,23 +29,11 @@ export default function Orders() {
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [openModal, setOpenModal] = React.useState(false);
-
-  const handleOpenModal = () => {
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
+  const [data, setData] = React.useState(false);
 
   const open = Boolean(anchorEl);
 
   const id = open ? "simple-popover" : undefined;
-
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -188,7 +168,10 @@ export default function Orders() {
                           className="action"
                           aria-describedby={id}
                           variant="contained"
-                          onClick={handleClick}
+                          onClick={e => {
+                            setAnchorEl(e.currentTarget);
+                            setData(order);
+                          }}
                         >
                           <FaEllipsisH color="#C6C6C6" size="10" opacity="1" />
                         </td>
@@ -198,45 +181,16 @@ export default function Orders() {
                 </tbody>
               </table>
             </ListOrders>
-
-            <Popover
-              id={id}
-              open={open}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              className="popover"
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "center"
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "center"
-              }}
-            >
-              <div
-                onClick={() => {
-                  handleOpenModal(true);
-                  console.log("visualizar");
-                  console.log(open);
-                }}
-              >
-                <MdRemoveRedEye size="16" color="#8E5BE8" />
-                <span>Visualizar</span>
-              </div>
-              <hr />
-              <div onClick={() => {}}>
-                <MdEdit size="16" color="#4D85EE" />
-                <span>Editar</span>
-              </div>
-              <hr />
-              <div onClick={() => {}}>
-                <MdDeleteForever size="16" color="#DE3B3B" />
-                <span>Excluir</span>
-              </div>
-            </Popover>
           </>
         )}
+
+        <PopoverList
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          call={handleClose}
+          data={data}
+        />
 
         {!sizeList && !loading && !error && (
           <div className="message">
@@ -273,8 +227,6 @@ export default function Orders() {
           </div>
         )}
       </Container>
-
-      <ModalList open={openModal} call={handleCloseModal} />
     </>
   );
 }

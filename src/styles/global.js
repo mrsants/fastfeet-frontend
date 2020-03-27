@@ -86,6 +86,9 @@ export default createGlobalStyle`
     flex-grow: 2;
   }
 
+  .label-color-red {
+    color: #DE3B3B;
+  }
 
   .MuiPopover-paper {
     box-shadow: none !important;
