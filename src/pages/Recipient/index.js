@@ -56,7 +56,7 @@ export default function Recipient() {
 
   useEffect(() => {
     loadListRecipient(1);
-  });
+  }, []);
 
   return (
     <Container>

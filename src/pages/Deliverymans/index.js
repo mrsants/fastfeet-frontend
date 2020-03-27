@@ -72,7 +72,7 @@ export default function Deliverymans() {
 
   useEffect(() => {
     loadListDeliverymans(1);
-  });
+  }, []);
 
   return (
     <Container>
