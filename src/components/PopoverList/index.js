@@ -1,11 +1,10 @@
-import Popover from "@material-ui/core/Popover";
 import React from "react";
 import { MdDeleteForever, MdEdit, MdRemoveRedEye } from "react-icons/md";
 import ModalList from "../ModalList";
- 
-export default function PopoverList({ id, open, anchorEl, call,  data }) {
-  const [openModal, setOpenModal] = React.useState(false);
+import { StyledPopover } from "./styles";
 
+export default function PopoverList({ id, open, anchorEl, call, data }) {
+  const [openModal, setOpenModal] = React.useState(false);
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -17,7 +16,7 @@ export default function PopoverList({ id, open, anchorEl, call,  data }) {
 
   return (
     <>
-      <Popover
+      <StyledPopover
         id={id}
         open={open}
         anchorEl={anchorEl}
@@ -50,7 +49,7 @@ export default function PopoverList({ id, open, anchorEl, call,  data }) {
           <MdDeleteForever size="16" color="#DE3B3B" />
           <span>Excluir</span>
         </div>
-      </Popover>
+      </StyledPopover>
 
       <ModalList open={openModal} call={handleCloseModal} data={data} />
     </>
