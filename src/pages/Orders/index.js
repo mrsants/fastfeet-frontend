@@ -13,7 +13,7 @@ import api from "../../services/api";
  * Stylesheet
  */
 import { Container, DotStatus, ListOrders, Pagination } from "./styles";
-import PopoverList from "../../components/PopoverList";
+import PopoverUi from "./PopoverUi";
 
 /**
  * @function <FunctionComponentElement> Orders
@@ -35,7 +35,7 @@ export default function Orders() {
 
   const id = open ? "simple-popover" : undefined;
 
-  const handleClose = () => {
+  function handleClose(){
     setAnchorEl(null);
   };
 
@@ -109,7 +109,7 @@ export default function Orders() {
             />
           </div>
 
-          <Link className="register-redirect" to="/order-register">
+          <Link className="register-redirect" to="/order-FO">
             <FaPlus color="#ffffff" opacity="1" />
             <span>CADASTRAR</span>
           </Link>
@@ -184,7 +184,7 @@ export default function Orders() {
           </>
         )}
 
-        <PopoverList
+        <PopoverUi
           id={id}
           open={open}
           anchorEl={anchorEl}

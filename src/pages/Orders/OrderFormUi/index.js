@@ -24,7 +24,7 @@ import RecipientInput from "./RecipientInput";
 import { ButtonBack, ButtonSave, Container, StyledInput } from "./styles";
 
 /**
- * @function <FunctionComponentElement> OrderRegister
+ * @function <FunctionComponentElement> OrderFormUi
  * @param {*} rest
  * @returns {ReactDOM} Returns a form to create a delivery schedule
  */
@@ -42,7 +42,7 @@ async function handleSubmit({ recipient_id, deliveryman_id, product }) {
   }
 }
 
-export default function OrderRegister() {
+export default function OrderFormUi() {
   return (
     <Container>
       <Form onSubmit={handleSubmit}>

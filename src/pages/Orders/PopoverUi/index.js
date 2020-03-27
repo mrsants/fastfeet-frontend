@@ -1,9 +1,9 @@
 import React from "react";
 import { MdDeleteForever, MdEdit, MdRemoveRedEye } from "react-icons/md";
-import ModalList from "../ModalList";
+import ModalUi from "../ModalUi";
 import { StyledPopover } from "./styles";
 
-export default function PopoverList({ id, open, anchorEl, call, data }) {
+export default function PopoverUi({ id, open, anchorEl, call, data }) {
   const [openModal, setOpenModal] = React.useState(false);
 
   const handleOpenModal = () => {
@@ -51,7 +51,7 @@ export default function PopoverList({ id, open, anchorEl, call, data }) {
         </div>
       </StyledPopover>
 
-      <ModalList open={openModal} call={handleCloseModal} data={data} />
+      <ModalUi open={openModal} call={handleCloseModal} data={data} />
     </>
   );
 }

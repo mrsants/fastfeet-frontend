@@ -18,16 +18,16 @@ const useStyles = makeStyles(theme => ({
     width: "450px",
     height: "350px",
     fontSize: "14px",
-    lineHeight: "16px"
+    lineHeight: "24px"
   }
 }));
 
-export default function ModalProblem({ open, call, dados }) {
+export default function ModalProblem({ open, call, data }) {
   const classes = useStyles();
 
   return (
     <div>
-      {dados && (
+      {data && (
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -44,6 +44,7 @@ export default function ModalProblem({ open, call, dados }) {
             <div className={classes.paper}>
               <div>
                 <strong id="transition-modal-title">VISUALIZAR PROBLEMA</strong>
+                <p>{data.description}</p>
               </div>
             </div>
           </Fade>

@@ -5,7 +5,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { format } from "date-fns";
 import React from "react";
 import { isNullOrUndefined } from "util";
-import ImageAss from "../../assets/assinatura-teste.png";
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -25,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ModalList({ open, call, data }) {
+export default function ModalUi({ open, call, data }) {
   const classes = useStyles();
 
   return (
@@ -83,13 +82,18 @@ export default function ModalList({ open, call, data }) {
                 </div>
               )}
 
-              <div className="mbt-20">
-                <strong>Assinatura do destinatário</strong>
-              </div>
-
-              <div className="mbt-20 flex-justify-center">
-                <img src={ImageAss} />
-              </div>
+              {data && !isNullOrUndefined(data.signatures) ? (
+                <>
+                  <div className="mbt-20">
+                    <strong>Assinatura do destinatário</strong>
+                  </div>
+                  <div className="mbt-20 flex-justify-center">
+                    <img src={data.signatures} />
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
             </div>
           </Fade>
         </Modal>

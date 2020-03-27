@@ -4,11 +4,11 @@ import Deliverymans from "../pages/Deliverymans";
 import DeliverymansRegister from "../pages/Deliverymans/DeliverymansRegister";
 import Login from "../pages/Login";
 import Orders from "../pages/Orders";
-import OrderRegister from "../pages/Orders/OrderRegister";
+import OrderFormUi from "../pages/Orders/OrderFormUi";
 import Problems from "../pages/Problems";
 import Recipient from "../pages/Recipient";
-import Route from "./Route";
 import RecipientRegister from "../pages/Recipient/RecipientRegister";
+import Route from "./Route";
 
 export default function Routes() {
   return (
@@ -20,8 +20,8 @@ export default function Routes() {
         isPrivate
       />
       <Route
-        path="/order-register"
-        component={props => <OrderRegister {...props} />}
+        path="/order-form"
+        component={props => <OrderFormUi {...props} />}
         isPrivate
       />
       <Route

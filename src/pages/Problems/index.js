@@ -3,6 +3,7 @@ import { FaEllipsisH } from "react-icons/fa";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import api from "../../services/api";
 import { Container, Pagination, Table } from "./styles";
+import PopoverProblem from "./PopoverProblem";
 
 export default function Problems() {
   const [listProblems, setListProblems] = useState([]);
@@ -10,6 +11,16 @@ export default function Problems() {
   const [sizeList, setSizeList] = useState(0);
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [data, setData] = React.useState(false);
+
+  const open = Boolean(anchorEl);
+
+  const id = open ? "simple-popover" : undefined;
+
+  function handleClose() {
+    setAnchorEl(null);
+  }
 
   function prevPage() {
     if (page === 1) {
@@ -78,7 +89,14 @@ export default function Problems() {
                   <tr key={index}>
                     <td>#{problem.id}</td>
                     <td>{problem.description}</td>
-                    <td>
+                    <td
+                      aria-describedby={id}
+                      variant="contained"
+                      onClick={e => {
+                        setAnchorEl(e.currentTarget);
+                        setData(problem);
+                      }}
+                    >
                       <FaEllipsisH color="#C6C6C6" size="10" opacity="1" />
                     </td>
                   </tr>
@@ -89,9 +107,19 @@ export default function Problems() {
         </Table>
       )}
 
+      <PopoverProblem
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        call={handleClose}
+        data={data}
+      />
+
       {!sizeList && !loading && !error && (
         <div className="message">
-          <strong>Não foi encontrado problemas de entregas para o periodo!</strong>
+          <strong>
+            Não foi encontrado problemas de entregas para o periodo!
+          </strong>
         </div>
       )}
 
