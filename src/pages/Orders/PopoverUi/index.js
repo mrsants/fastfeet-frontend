@@ -1,10 +1,17 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux"
-import { MdDeleteForever, MdEdit, MdRemoveRedEye } from "react-icons/md";
-import history from "../../../services/history";
-import { orderDelete, orderUpdate } from "../../../store/modules/orders/actions";
-import ModalUi from "../ModalUi";
-import { StyledPopover } from "./styles";
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { MdDeleteForever, MdEdit, MdRemoveRedEye } from 'react-icons/md';
+import history from '../../../services/history';
+import {
+  orderDelete,
+  orderUpdate,
+} from '../../../store/modules/orders/actions';
+import ModalUi from '../ModalUi';
+import { StyledPopover } from './styles';
 
 export default function PopoverUi({ id, open, anchorEl, call, data }) {
   const [openModal, setOpenModal] = useState(false);
@@ -18,8 +25,18 @@ export default function PopoverUi({ id, open, anchorEl, call, data }) {
     setOpenModal(false);
   }
 
-   function handleDelete(id) {
-    dispatch(orderDelete(id));  
+  function handleDelete(param) {
+    dispatch(orderDelete(param));
+  }
+
+  function handleUpdate() {
+    history.push('/order-form-ui');
+    dispatch(
+      orderUpdate({
+        ...data,
+        edit: true,
+      })
+    );
   }
 
   return (
@@ -31,12 +48,12 @@ export default function PopoverUi({ id, open, anchorEl, call, data }) {
         onClose={call}
         className="popover"
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center"
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center"
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
         <div
@@ -48,17 +65,7 @@ export default function PopoverUi({ id, open, anchorEl, call, data }) {
           <span>Visualizar</span>
         </div>
         <hr />
-        <div
-          onClick={() => {
-            history.push("/order-form-ui");
-            dispatch(
-              orderUpdate({
-                ...data,
-                edit: true
-              })
-            );
-          }}
-        >
+        <div onClick={() => handleUpdate(data)}>
           <MdEdit size="16" color="#4D85EE" />
           <span>Editar</span>
         </div>
@@ -73,3 +80,11 @@ export default function PopoverUi({ id, open, anchorEl, call, data }) {
     </>
   );
 }
+
+PopoverUi.propTypes = {
+  id: PropTypes.number.isRequired,
+  open: PropTypes.bool.isRequired,
+  anchorEl: PropTypes.func.isRequired,
+  call: PropTypes.func.isRequired,
+  data: PropTypes.array.isRequired,
+};

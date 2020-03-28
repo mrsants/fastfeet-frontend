@@ -1,17 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { FaEllipsisH, FaPlus } from "react-icons/fa";
-import { MdChevronLeft, MdChevronRight, MdSearch } from "react-icons/md";
-import { Link } from "react-router-dom/cjs/react-router-dom";
-import api from "../../services/api";
-import { Container, Pagination, Table } from "./styles";
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+import React, { useEffect, useState } from 'react';
+import { FaEllipsisH, FaPlus } from 'react-icons/fa';
+import { MdChevronLeft, MdChevronRight, MdSearch } from 'react-icons/md';
+import { Link } from 'react-router-dom/cjs/react-router-dom';
+import api from '../../services/api';
+import { Container, Pagination, Table } from './styles';
 
 export default function Deliverymans() {
   const [listDeliverymans, setListDeliverymans] = useState([]);
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   const [sizeList, setSizeList] = useState(0);
   const [error, setError] = useState(false);
-
   const [page, setPage] = useState(1);
+
+  async function loadListDeliverymans(pageNumber) {
+    try {
+      const response = await api.get(`/deliverymans?name=${name}`, {
+        params: {
+          page: pageNumber,
+        },
+      });
+
+      setSizeList(response.data.length);
+      setListDeliverymans(response.data);
+    } catch (err) {
+      setError(true);
+    }
+  }
 
   function prevPage() {
     if (page === 1) {
@@ -20,7 +36,6 @@ export default function Deliverymans() {
 
     const pageNumber = page - 1;
     setPage(pageNumber);
-    loadListDeliverymans(pageNumber);
   }
 
   function nextPage() {
@@ -31,32 +46,16 @@ export default function Deliverymans() {
     const pageNumber = page + 1;
 
     setPage(pageNumber);
-    loadListDeliverymans(pageNumber);
-  }
-
-  async function loadListDeliverymans(page) {
-    try {
-
-      const response = await api.get(`/deliverymans?name=${name}`, {
-        params: {
-          page
-        }
-      });
-
-      const data = response.data.map(order => ({
-        ...order
-      }));
-
-      setSizeList(response.data.length);
-      setListDeliverymans(data);
-    } catch (err) {
-      setError(true);
-    }
   }
 
   useEffect(() => {
     loadListDeliverymans(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    loadListDeliverymans(page);
+  }, [page]);
 
   return (
     <Container>
@@ -95,9 +94,9 @@ export default function Deliverymans() {
               </tr>
             </thead>
             <tbody>
-              {listDeliverymans.map((delivery, index) => {
+              {listDeliverymans.map(delivery => {
                 return (
-                  <tr key={index}>
+                  <tr key={delivery.id}>
                     <td>#{delivery.id}</td>
                     <td>
                       <img
@@ -129,7 +128,6 @@ export default function Deliverymans() {
           <span
             onClick={() => {
               prevPage();
-              loadListDeliverymans(page);
             }}
           >
             <MdChevronLeft color="#ccc" size={20} />
@@ -137,7 +135,6 @@ export default function Deliverymans() {
           <span
             onClick={() => {
               nextPage();
-              loadListDeliverymans(page);
             }}
           >
             <MdChevronRight color="#ccc" size={20} />

@@ -1,15 +1,16 @@
-import React from "react";
-import { Form } from "@rocketseat/unform";
-import { FaCheck, FaChevronLeft } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import history from "../../../services/history";
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React from 'react';
+import { Form } from '@rocketseat/unform';
+import { FaCheck, FaChevronLeft } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import history from '../../../services/history';
 import {
   orderCreate,
-  orderNewUpdate
-} from "../../../../src/store/modules/orders/actions";
-import DeliverymanInput from "./DeliverymanInput";
-import RecipientInput from "./RecipientInput";
-import { ButtonBack, ButtonSave, Container, StyledInput } from "./styles";
+  orderNewUpdate,
+} from '../../../store/modules/orders/actions';
+import DeliverymanInput from './DeliverymanInput';
+import RecipientInput from './RecipientInput';
+import { ButtonBack, ButtonSave, Container, StyledInput } from './styles';
 
 /**
  * @function <FunctionComponentElement> OrderFormUi
@@ -19,7 +20,6 @@ import { ButtonBack, ButtonSave, Container, StyledInput } from "./styles";
 
 export default function OrderFormUi() {
   const dispatch = useDispatch();
-
   const { id, edit } = useSelector(state => state.orders.data);
 
   return (
@@ -52,7 +52,7 @@ export default function OrderFormUi() {
             <ButtonBack
               onClick={e => {
                 e.preventDefault();
-                history.push("/orders");
+                history.push('/orders');
               }}
             >
               <FaChevronLeft color="#fff" />
@@ -83,7 +83,7 @@ export default function OrderFormUi() {
             <StyledInput
               name="product"
               placeholder="Digite o nome do produto"
-            ></StyledInput>
+            />
           </div>
         </div>
       </Form>

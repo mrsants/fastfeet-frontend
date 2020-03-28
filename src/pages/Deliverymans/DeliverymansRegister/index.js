@@ -1,26 +1,30 @@
-import { Form } from "@rocketseat/unform";
-import React, { useRef, useState, useEffect } from "react";
-import { FaCheck, FaChevronLeft } from "react-icons/fa";
-import { IoMdImage } from "react-icons/io";
-import { toast } from "react-toastify";
-import { isNullOrUndefined } from "util";
-import * as Yup from "yup";
-import history from "../../../services/history";
-import api from "../../../services/api";
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import { Form } from '@rocketseat/unform';
+import React, { useEffect, useRef, useState } from 'react';
+import { FaCheck, FaChevronLeft } from 'react-icons/fa';
+import { IoMdImage } from 'react-icons/io';
+import { toast } from 'react-toastify';
+import { isNullOrUndefined } from 'util';
+import * as Yup from 'yup';
+import api from '../../../services/api';
+import history from '../../../services/history';
 
 import {
-  Container,
+  Avatar,
   ButtonBack,
   ButtonSave,
+  Container,
   StyledInput,
-  Avatar
-} from "./styles";
+} from './styles';
 
 const schema = Yup.object().shape({
-  name: Yup.string().required("O nome é obrigatório"),
+  name: Yup.string().required('O nome é obrigatório'),
   email: Yup.string()
-    .email("Insira um e-mail válido")
-    .required("O e-mail é obrigatório")
+    .email('Insira um e-mail válido')
+    .required('O e-mail é obrigatório'),
 });
 
 export default function DeliverymansRegister() {
@@ -37,50 +41,54 @@ export default function DeliverymansRegister() {
     setFile(src[0]);
   };
 
-  useEffect(() => {
-    const upload = async () => {
-      if (file) {
-        const formData = new FormData();
+  async function uploadAvatar() {
+    if (file) {
+      const formData = new FormData();
 
-        formData.append("photos", file);
+      formData.append('photos', file);
 
-        try {
-          const res = await api.post("/photos", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data"
-            }
-          });
+      try {
+        const res = await api.post('/photos', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
 
-          setAvatar(res.data);
-          setUpload(true);
-        } catch (error) {}
+        setAvatar(res.data);
+        toast.success('Upload da foto foi feito com sucesso!');
+        setUpload(true);
+      } catch (error) {
+        toast.error('Ocorreu um erro ao fazer upload!');
       }
-    };
+    }
+  }
 
-    upload();
+  useEffect(() => {
+    uploadAvatar();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
 
   const handleSubmit = async ({ name, email }) => {
     if (!isNullOrUndefined(avatar)) {
       try {
-        await api.post("/deliverymans", {
+        await api.post('/deliverymans', {
           name,
           email,
-          avatar_id: avatar.id
+          avatar_id: avatar.id,
         });
 
         setUpload(true);
 
-        toast.success("Entregador cadastro com sucesso!");
+        toast.success('Entregador cadastro com sucesso!');
 
         setTimeout(() => {
-          history.push("/deliverymans");
+          history.push('/deliverymans');
         }, 3000);
       } catch (error) {
-        toast.error("Ocorreu um erro ao criar um entregador!");
+        toast.error('Ocorreu um erro ao criar um entregador!');
       }
     } else {
-      toast.error("Por favor nao é possivel criar um perfil sem um avatar");
+      toast.error('Por favor nao é possivel criar um perfil sem um avatar');
     }
   };
 
@@ -93,7 +101,7 @@ export default function DeliverymansRegister() {
             <ButtonBack
               onClick={e => {
                 e.preventDefault();
-                history.push("/deliverymans");
+                history.push('/deliverymans');
               }}
             >
               <FaChevronLeft color="#fff" />

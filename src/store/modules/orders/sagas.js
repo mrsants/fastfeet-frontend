@@ -45,8 +45,7 @@ export function* orderNewUpdate({ payload }) {
   }
 }
 
-export function* orderUpdate({ payload }) {
-  yield put(orderSuccess(payload.data));
+export function orderUpdate() {
   history.push('/order-form-ui');
 }
 

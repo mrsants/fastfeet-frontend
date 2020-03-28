@@ -1,5 +1,5 @@
-import { Input } from "@rocketseat/unform";
-import styled from "styled-components";
+import { Input } from '@rocketseat/unform';
+import styled from 'styled-components';
 
 export const Container = styled.div`
   margin-top: 34px;
@@ -40,9 +40,8 @@ export const Container = styled.div`
         display: grid;
         grid-template-columns: 1fr 1fr;
       }
-   
+
       .form-group {
-      
         span {
           line-height: 22px;
           font-weight: bold;
@@ -54,7 +53,6 @@ export const Container = styled.div`
       margin-bottom: 16px;
     }
   }
-
 `;
 
 export const ButtonSave = styled.button`
