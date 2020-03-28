@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom/cjs/react-router-dom";
 
 export const Container = styled.div`
   margin-left: 245px;
   margin-right: 245px;
   margin-top: 34px;
+  height: 100%;
   h2 {
     text-align: left;
     letter-spacing: 0;
@@ -158,11 +158,9 @@ export const DotStatus = styled.span`
 
 export const Pagination = styled.div`
   margin-top: 5px;
-  position: absolute;
-  bottom: 0;
-  margin-bottom: 10px;
-  transform: translateX(-50%);
-  left: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
   span {
     cursor: pointer;
     color: black;

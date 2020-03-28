@@ -35,7 +35,7 @@ export default function Orders() {
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [data, setData] = React.useState(false);
+  const [data, setData] = React.useState();
 
   const open = Boolean(anchorEl);
 
@@ -96,6 +96,10 @@ export default function Orders() {
     loadListOrders(1);
   }, []);
 
+  useEffect(() => {
+    loadListOrders(); 
+  }, [nameProduct]);
+
   return (
     <>
       <Container>
@@ -107,7 +111,6 @@ export default function Orders() {
               onChange={e => {
                 e.preventDefault();
                 setNameProduct(e.target.value);
-                loadListOrders();
               }}
               type="text"
               placeholder="Buscar por encomendas"
@@ -194,13 +197,15 @@ export default function Orders() {
           </>
         )}
 
-        <PopoverUi
-          id={id}
-          open={open}
-          anchorEl={anchorEl}
-          call={handleClose}
-          data={data}
-        />
+        {data && (
+          <PopoverUi
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            call={handleClose}
+            data={data}
+          />
+        )}
 
         {!sizeList && !loading && !error && (
           <div className="message">

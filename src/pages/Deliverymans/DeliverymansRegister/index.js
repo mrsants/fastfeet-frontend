@@ -78,7 +78,7 @@ export default function DeliverymansRegister() {
   const handleSubmit = async ({ name, email }) => {
     if (!isNullOrUndefined(avatar)) {
       try {
-        const res = await api.post("/deliverymans", {
+        await api.post("/deliverymans", {
           name,
           email,
           avatar_id: avatar.id

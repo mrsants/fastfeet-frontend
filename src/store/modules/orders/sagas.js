@@ -47,7 +47,8 @@ export function* orderNewUpdate({ payload }) {
   }
 }
 
-export function* orderUpdate() {
+
+export function orderUpdate() {
   history.push("/order-form-ui");
 }
 

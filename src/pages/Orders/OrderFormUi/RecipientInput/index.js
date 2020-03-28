@@ -1,23 +1,8 @@
-/**
- * Modules
- */
 import { useField } from "@rocketseat/unform";
 import React, { useEffect, useRef, useState } from "react";
-/**
- * Services
- */
 import api from "../../../../services/api";
-import history from "../../../../services/history";
-/**
- * StyleSheet
- */
 import { StyledSelect } from "./styles";
 
-/**
- * @function <FunctionComponentElement> RecipientInput
- * @param {*} rest
- * @returns {ReactDOM} Returns a input to create a delivery schedule
- */
 export default function RecipientInput({
   name,
   label,

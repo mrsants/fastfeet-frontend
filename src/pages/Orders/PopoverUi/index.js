@@ -1,22 +1,38 @@
 import React, { useState } from "react";
 import { MdDeleteForever, MdEdit, MdRemoveRedEye } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import api from "../../../services/api";
+import history from "../../../services/history";
+import { orderUpdate } from "../../../store/modules/orders/actions";
 import ModalUi from "../ModalUi";
 import { StyledPopover } from "./styles";
-import history from "../../../services/history";
-import { useDispatch } from "react-redux";
-import { orderUpdate } from "../../../store/modules/orders/actions";
 
 export default function PopoverUi({ id, open, anchorEl, call, data }) {
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
 
-  const handleOpenModal = () => {
+  function handleOpenModal() {
     setOpenModal(true);
-  };
+  }
 
-  const handleCloseModal = () => {
+  function handleCloseModal() {
     setOpenModal(false);
-  };
+  }
+
+  async function handleDelete(id) {
+    try {
+      const { data } = await api.get(`/order-management/${id}`);
+      if (data.status === "CANCELADA") {
+        toast.error("Encomenda já está cancelada!");
+      } else {
+        await api.delete(`/order-management/${id}`);
+        toast.success("Encomenda cancelada com sucesso!");
+      }
+    } catch (err) {
+      toast.error("Falha na atualização!");
+    }
+  }
 
   return (
     <>
@@ -59,7 +75,7 @@ export default function PopoverUi({ id, open, anchorEl, call, data }) {
           <span>Editar</span>
         </div>
         <hr />
-        <div onClick={() => {}}>
+        <div onClick={() => handleDelete(data.id)}>
           <MdDeleteForever size="16" color="#DE3B3B" />
           <span>Excluir</span>
         </div>

@@ -29,20 +29,20 @@ export default function ModalUi({ open, call, data }) {
 
   return (
     <div>
-      {data && (
-        <Modal
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
-          className={classes.modal}
-          open={open}
-          onClose={call}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 500
-          }}
-        >
-          <Fade in={open}>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={open}
+        onClose={call}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500
+        }}
+      >
+        <Fade in={open}>
+          {data.status !== "CANCELADA" ? (
             <div className={classes.paper}>
               <div>
                 <strong id="transition-modal-title">
@@ -82,22 +82,31 @@ export default function ModalUi({ open, call, data }) {
                 </div>
               )}
 
-              {data && !isNullOrUndefined(data.signatures) ? (
+              {data && !isNullOrUndefined(data.signatures) && (
                 <>
                   <div className="mbt-20">
                     <strong>Assinatura do destinatário</strong>
                   </div>
                   <div className="mbt-20 flex-justify-center">
-                    <img src={data.signatures} />
+                    <img src={data.signatures} alt="Imagem de assinatura" />
                   </div>
                 </>
-              ) : (
-                ""
               )}
             </div>
-          </Fade>
-        </Modal>
-      )}
+          ) : (
+            <div className={classes.paper}>
+              <strong id="transition-modal-title">
+                Informações da encomenda
+              </strong>
+              <div className="mbt-20">
+                <strong className="label-color-red">
+                  Encomenda está cancelada!
+                </strong>
+              </div>{" "}
+            </div>
+          )}
+        </Fade>
+      </Modal>
     </div>
   );
 }

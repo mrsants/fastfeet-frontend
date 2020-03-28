@@ -32,7 +32,14 @@ const schema = Yup.object().shape({
  * @returns {ReactDOM} Returns a form to register a deliverymans
  */
 export default function RecipientRegister() {
-  const handleSubmit = async data => {
+  function handleRedirectTo() {
+    return e => {
+      e.preventDefault();
+      history.push("/deliverymans");
+    };
+  }
+
+  async function handleSubmit(data) {
     {
       try {
         await api.post("/recipient", {
@@ -48,7 +55,7 @@ export default function RecipientRegister() {
         toast.error("Ocorreu um erro ao criar um destinário!");
       }
     }
-  };
+  }
 
   return (
     <Container>
@@ -56,12 +63,7 @@ export default function RecipientRegister() {
         <div className="flex-justify-between">
           <h2>Cadastro de encomendas</h2>
           <div className="flex-justify-between">
-            <ButtonBack
-              onClick={e => {
-                e.preventDefault();
-                history.push("/deliverymans");
-              }}
-            >
+            <ButtonBack onClick={handleRedirectTo()}>
               <FaChevronLeft color="#fff" />
               <span>VOLTAR</span>
             </ButtonBack>
