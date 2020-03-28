@@ -7,7 +7,7 @@ import React, { useEffect, useRef, useState } from "react";
  * Services
  */
 import api from "../../../../services/api";
-
+import history from "../../../../services/history";
 /**
  * StyleSheet
  */
@@ -25,6 +25,7 @@ export default function RecipientInput({
   multiple,
   ...rest
 }) {
+
   const style = {
     control: (base, state) => ({
       ...base,

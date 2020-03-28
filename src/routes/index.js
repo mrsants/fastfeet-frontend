@@ -20,7 +20,7 @@ export default function Routes() {
         isPrivate
       />
       <Route
-        path="/order-form"
+        path="/order-form-ui"
         component={props => <OrderFormUi {...props} />}
         isPrivate
       />

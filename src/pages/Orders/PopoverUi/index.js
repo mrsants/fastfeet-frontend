@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { MdDeleteForever, MdEdit, MdRemoveRedEye } from "react-icons/md";
 import ModalUi from "../ModalUi";
 import { StyledPopover } from "./styles";
+import history from "../../../services/history";
+import { useDispatch } from "react-redux";
+import { orderUpdate } from "../../../store/modules/orders/actions";
 
 export default function PopoverUi({ id, open, anchorEl, call, data }) {
-  const [openModal, setOpenModal] = React.useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const dispatch = useDispatch();
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -40,7 +44,17 @@ export default function PopoverUi({ id, open, anchorEl, call, data }) {
           <span>Visualizar</span>
         </div>
         <hr />
-        <div onClick={() => {}}>
+        <div
+          onClick={() => {
+            history.push("/order-form-ui");
+            dispatch(
+              orderUpdate({
+                ...data,
+                edit: true
+              })
+            );
+          }}
+        >
           <MdEdit size="16" color="#4D85EE" />
           <span>Editar</span>
         </div>

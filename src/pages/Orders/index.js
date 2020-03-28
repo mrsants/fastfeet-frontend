@@ -4,15 +4,21 @@
 import React, { useEffect, useState } from "react";
 import { FaCircle, FaEllipsisH, FaPlus } from "react-icons/fa";
 import { MdChevronLeft, MdChevronRight, MdSearch } from "react-icons/md";
-import { Link } from "react-router-dom/cjs/react-router-dom";
 /**
  * Services
  */
 import api from "../../services/api";
+import history from "../../services/history";
 /**
  * Stylesheet
  */
-import { Container, DotStatus, ListOrders, Pagination } from "./styles";
+import {
+  Container,
+  DotStatus,
+  ListOrders,
+  Pagination,
+  ButtonResgiter
+} from "./styles";
 import PopoverUi from "./PopoverUi";
 
 /**
@@ -35,9 +41,9 @@ export default function Orders() {
 
   const id = open ? "simple-popover" : undefined;
 
-  function handleClose(){
+  function handleClose() {
     setAnchorEl(null);
-  };
+  }
 
   function prevPage() {
     if (page === 1) {
@@ -109,10 +115,14 @@ export default function Orders() {
             />
           </div>
 
-          <Link className="register-redirect" to="/order-FO">
+          <ButtonResgiter
+            onClick={() => {
+              history.push("/order-form-ui", { edit: false });
+            }}
+          >
             <FaPlus color="#ffffff" opacity="1" />
             <span>CADASTRAR</span>
-          </Link>
+          </ButtonResgiter>
         </div>
 
         {sizeList > 0 && (

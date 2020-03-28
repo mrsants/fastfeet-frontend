@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom/cjs/react-router-dom";
 
 export const Container = styled.div`
   margin-left: 245px;
@@ -40,30 +41,6 @@ export const Container = styled.div`
             color: #999999;
             opacity: 1;
           }
-        }
-      }
-    }
-
-    a {
-      &.register-redirect {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #7d40e7 0% 0% no-repeat padding-box;
-        border-radius: 4px;
-        opacity: 1;
-        padding: 4px;
-        width: 142px;
-        height: 36px;
-
-        span {
-          font-weight: bold;
-          text-align: center;
-          letter-spacing: 0;
-          color: #ffffff;
-          opacity: 1;
-          font-size: 14px;
-          margin-left: 6px;
         }
       }
     }
@@ -146,6 +123,28 @@ export const ListOrders = styled.div`
         cursor: pointer;
       }
     }
+  }
+`;
+
+export const ButtonResgiter = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #7d40e7 0% 0% no-repeat padding-box;
+  border-radius: 4px;
+  opacity: 1;
+  padding: 4px;
+  width: 142px;
+  height: 36px;
+
+  span {
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 0;
+    color: #ffffff;
+    opacity: 1;
+    font-size: 14px;
+    margin-left: 6px;
   }
 `;
 

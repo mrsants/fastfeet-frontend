@@ -1,26 +1,14 @@
-/**
- * Modules
- */
-import { Form } from "@rocketseat/unform";
 import React from "react";
+import { Form } from "@rocketseat/unform";
 import { FaCheck, FaChevronLeft } from "react-icons/fa";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-/**
- * Services
- */
-
+import { useDispatch, useSelector } from "react-redux";
 import history from "../../../services/history";
-import api from "../../../services/api";
-/**
- * Components
- */
+import {
+  orderCreate,
+  orderNewUpdate
+} from "../../../../src/store/modules/orders/actions";
 import DeliverymanInput from "./DeliverymanInput";
 import RecipientInput from "./RecipientInput";
-
-/**
- * StyleSheet
- */
 import { ButtonBack, ButtonSave, Container, StyledInput } from "./styles";
 
 /**
@@ -28,26 +16,38 @@ import { ButtonBack, ButtonSave, Container, StyledInput } from "./styles";
  * @param {*} rest
  * @returns {ReactDOM} Returns a form to create a delivery schedule
  */
-async function handleSubmit({ recipient_id, deliveryman_id, product }) {
-  try {
-    await api.post("/order-management", {
-      recipient_id: recipient_id.value,
-      deliveryman_id: deliveryman_id.value,
-      product
-    });
-    toast.success("Encomenda criada com sucesso!");
-    history.push("/orders");
-  } catch ({ response }) {
-    toast.error("Não foi possivel criar uma encomenda!");
-  }
-}
 
 export default function OrderFormUi() {
+  const dispatch = useDispatch();
+
+  const { id, edit } = useSelector(state => state.orders.data);
+
   return (
     <Container>
-      <Form onSubmit={handleSubmit}>
+      <Form
+        onSubmit={({ recipient_id, deliveryman_id, product }) => {
+          if (edit) {
+            dispatch(
+              orderNewUpdate(
+                recipient_id.value,
+                deliveryman_id.value,
+                product,
+                id
+              )
+            );
+          } else {
+            dispatch(
+              orderCreate(recipient_id.value, deliveryman_id.value, product)
+            );
+          }
+        }}
+      >
         <div className="flex-justify-between">
-          <h2>Cadastro de encomendas</h2>
+          {edit ? (
+            <h2>Edição de encomendas</h2>
+          ) : (
+            <h2>Cadastro de encomendas</h2>
+          )}
           <div className="flex-justify-between">
             <ButtonBack
               onClick={e => {
