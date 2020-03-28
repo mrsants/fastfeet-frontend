@@ -7,13 +7,13 @@ import { orderFailure, orderSuccess } from "./actions";
 export function* orderCreate({ payload }) {
   const { recipient_id, deliveryman_id, product } = payload;
   try {
-    yield api.post("/order-management", {
+    const { data } = yield api.post("/order-management", {
       recipient_id,
       deliveryman_id,
       product
     });
 
-    yield put(orderSuccess());
+    yield put(orderSuccess(data));
 
     toast.success("Encomenda criada com sucesso!");
 
@@ -23,7 +23,6 @@ export function* orderCreate({ payload }) {
     toast.error("Não foi possivel criar uma encomenda!");
   }
 }
-
 
 export function* orderNewUpdate({ payload }) {
   const { recipient_id, deliveryman_id, product, order_id } = payload;
@@ -41,19 +40,36 @@ export function* orderNewUpdate({ payload }) {
 
     history.push("/orders");
   } catch (err) {
-    console.log(err);
     yield put(orderFailure());
     toast.error("Falha na atualização!");
   }
 }
 
-
-export function orderUpdate() {
+export function* orderUpdate({ payload }) {
+  yield put(orderSuccess(payload.data));
   history.push("/order-form-ui");
+}
+
+export function* orderDelete({ payload }) {
+  const { id } = payload;
+  try {
+    const { data } = yield api.get(`/order-management/${id}`);
+    if (data.status === "CANCELADA") {
+      toast.error("Encomenda já está cancelada!");
+    } else {
+      yield api.delete(`/order-management/${id}`);
+      yield put(orderSuccess(data));
+      toast.success("Encomenda cancelada com sucesso!");
+    }
+  } catch (err) {
+    yield put(orderFailure());
+    toast.error("Falha na atualização!");
+  }
 }
 
 export default all([
   takeLatest("@orders/ORDER_CREATE", orderCreate),
   takeLatest("@orders/ORDER_NEW_UPDATE", orderNewUpdate),
   takeLatest("@orders/ORDER_UPDATE", orderUpdate),
+  takeLatest("@orders/ORDER_DELETE", orderDelete)
 ]);

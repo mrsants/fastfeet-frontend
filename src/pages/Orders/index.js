@@ -2,6 +2,7 @@
  * Modules
  */
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux"
 import { FaCircle, FaEllipsisH, FaPlus } from "react-icons/fa";
 import { MdChevronLeft, MdChevronRight, MdSearch } from "react-icons/md";
 /**
@@ -36,6 +37,8 @@ export default function Orders() {
   const [page, setPage] = useState(1);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [data, setData] = React.useState();
+
+  const order = useSelector(state => state.orders);
 
   const open = Boolean(anchorEl);
 
@@ -99,6 +102,12 @@ export default function Orders() {
   useEffect(() => {
     loadListOrders(); 
   }, [nameProduct]);
+
+
+  useEffect(() => {
+    loadListOrders(); 
+  }, [order]);
+
 
   return (
     <>

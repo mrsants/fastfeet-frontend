@@ -19,6 +19,14 @@ export function orderUpdate(data) {
   };
 }
 
+export function orderDelete(id) {
+
+  return {
+    type: "@orders/ORDER_DELETE",
+    payload: { id }
+  };
+}
+
 export function orderSuccess(data) {
   return {
     type: "@orders/ORDER_SUCCESS",

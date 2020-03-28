@@ -4,7 +4,6 @@ export const Container = styled.div`
   margin-left: 245px;
   margin-right: 245px;
   margin-top: 34px;
-  height: 100%;
   h2 {
     text-align: left;
     letter-spacing: 0;

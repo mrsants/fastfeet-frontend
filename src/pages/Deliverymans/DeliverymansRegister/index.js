@@ -1,6 +1,3 @@
-/**
- * Modules
- */
 import { Form } from "@rocketseat/unform";
 import React, { useRef, useState, useEffect } from "react";
 import { FaCheck, FaChevronLeft } from "react-icons/fa";
@@ -8,16 +5,9 @@ import { IoMdImage } from "react-icons/io";
 import { toast } from "react-toastify";
 import { isNullOrUndefined } from "util";
 import * as Yup from "yup";
-
-/**
- * Services
- */
-
 import history from "../../../services/history";
 import api from "../../../services/api";
-/**
- * StyleSheet
- */
+
 import {
   Container,
   ButtonBack,
@@ -33,11 +23,6 @@ const schema = Yup.object().shape({
     .required("O e-mail é obrigatório")
 });
 
-/**
- * @function <FunctionComponentElement> DeliverymansRegister
- * @param {*} rest
- * @returns {ReactDOM} Returns a form to register a deliverymans
- */
 export default function DeliverymansRegister() {
   const avatarRef = useRef(null);
   const [file, setFile] = useState(null);

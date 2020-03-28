@@ -14,7 +14,7 @@ export const StyledPopover = styled(Popover)`
     align-self: center;
     justify-content: space-between;
     flex-direction: column;
-
+    overflow: scroll !important;
     hr {
       width: 130px;
       border: 1px solid #eeeeee;
