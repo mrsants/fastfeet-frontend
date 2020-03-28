@@ -1,48 +1,61 @@
-/**
- * Modules
- */
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux"
-import { FaCircle, FaEllipsisH, FaPlus } from "react-icons/fa";
-import { MdChevronLeft, MdChevronRight, MdSearch } from "react-icons/md";
-/**
- * Services
- */
-import api from "../../services/api";
-import history from "../../services/history";
-/**
- * Stylesheet
- */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { FaCircle, FaEllipsisH, FaPlus } from 'react-icons/fa';
+import { MdChevronLeft, MdChevronRight, MdSearch } from 'react-icons/md';
+
+import api from '../../services/api';
+import history from '../../services/history';
+
 import {
   Container,
   DotStatus,
   ListOrders,
   Pagination,
-  ButtonResgiter
-} from "./styles";
-import PopoverUi from "./PopoverUi";
-
-/**
- * @function <FunctionComponentElement> Orders
- * @param {*} rest
- * @returns {ReactDOM} Returns a list of the orders
- */
+  ButtonResgiter,
+} from './styles';
+import PopoverUi from './PopoverUi';
 
 export default function Orders() {
   const [listOrders, setListOrders] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [nameProduct, setNameProduct] = useState("");
+  const [nameProduct, setNameProduct] = useState('');
   const [sizeList, setSizeList] = useState(0);
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [data, setData] = React.useState();
 
-  const order = useSelector(state => state.orders);
+  const orderState = useSelector(state => state.orders);
 
   const open = Boolean(anchorEl);
 
-  const id = open ? "simple-popover" : undefined;
+  const id = open ? 'simple-popover' : undefined;
+
+  async function loadListOrders(pageNumber) {
+    try {
+      setLoading(true);
+
+      const response = await api.get(
+        `/order-management?product=${nameProduct}`,
+        {
+          params: {
+            page: pageNumber,
+          },
+        }
+      );
+
+      setSizeList(response.data.length);
+      setListOrders(response.data);
+      setLoading(null);
+    } catch (err) {
+      setError(true);
+      setLoading(false);
+    }
+  }
 
   function handleClose() {
     setAnchorEl(null);
@@ -55,7 +68,6 @@ export default function Orders() {
 
     const pageNumber = page - 1;
     setPage(pageNumber);
-    loadListOrders(pageNumber);
   }
 
   function nextPage() {
@@ -66,33 +78,6 @@ export default function Orders() {
     const pageNumber = page + 1;
 
     setPage(pageNumber);
-    loadListOrders(pageNumber);
-  }
-
-  async function loadListOrders(page) {
-    try {
-      setLoading(true);
-
-      const response = await api.get(
-        `/order-management?product=${nameProduct}`,
-        {
-          params: {
-            page
-          }
-        }
-      );
-
-      const data = response.data.map(order => ({
-        ...order
-      }));
-
-      setSizeList(response.data.length);
-      setListOrders(data);
-      setLoading(null);
-    } catch (err) {
-      setError(true);
-      setLoading(false);
-    }
   }
 
   useEffect(() => {
@@ -100,14 +85,16 @@ export default function Orders() {
   }, []);
 
   useEffect(() => {
-    loadListOrders(); 
-  }, [nameProduct]);
-
+    loadListOrders();
+  }, [nameProduct, page]);
 
   useEffect(() => {
-    loadListOrders(); 
-  }, [order]);
+    loadListOrders(page);
+  }, [page]);
 
+  useEffect(() => {
+    loadListOrders();
+  }, [orderState]);
 
   return (
     <>
@@ -129,7 +116,7 @@ export default function Orders() {
 
           <ButtonResgiter
             onClick={() => {
-              history.push("/order-form-ui", { edit: false });
+              history.push('/order-form-ui', { edit: false });
             }}
           >
             <FaPlus color="#ffffff" opacity="1" />
@@ -153,9 +140,9 @@ export default function Orders() {
                   </tr>
                 </thead>
                 <tbody>
-                  {listOrders.map((order, index) => {
+                  {listOrders.map(order => {
                     return (
-                      <tr key={index}>
+                      <tr key={order.id}>
                         <td>#{order.id}</td>
                         <td>{order.recipients.name}</td>
                         <td className="avatar-uui">
@@ -170,16 +157,16 @@ export default function Orders() {
                         <td className="deliver">
                           <DotStatus
                             backgroundColor={
-                              (order.status === "PENDENTE" && "#F0F0DF") ||
-                              (order.status === "CANCELADA" && "#FAB0B0") ||
-                              (order.status === "ENTREGUE" && "#DFF0DF") ||
-                              (order.status === "RETIRADA" && "#BAD2FF")
+                              (order.status === 'PENDENTE' && '#F0F0DF') ||
+                              (order.status === 'CANCELADA' && '#FAB0B0') ||
+                              (order.status === 'ENTREGUE' && '#DFF0DF') ||
+                              (order.status === 'RETIRADA' && '#BAD2FF')
                             }
                             color={
-                              (order.status === "PENDENTE" && "#C1BC35") ||
-                              (order.status === "CANCELADA" && "#DE3B3B") ||
-                              (order.status === "ENTREGUE" && "#2CA42B") ||
-                              (order.status === "RETIRADA" && "#4D85EE")
+                              (order.status === 'PENDENTE' && '#C1BC35') ||
+                              (order.status === 'CANCELADA' && '#DE3B3B') ||
+                              (order.status === 'ENTREGUE' && '#2CA42B') ||
+                              (order.status === 'RETIRADA' && '#4D85EE')
                             }
                           >
                             <FaCircle size="10" />
@@ -227,7 +214,6 @@ export default function Orders() {
             <span
               onClick={() => {
                 prevPage();
-                loadListOrders(page);
               }}
             >
               <MdChevronLeft color="#ccc" size={20} />
@@ -235,7 +221,6 @@ export default function Orders() {
             <span
               onClick={() => {
                 nextPage();
-                loadListOrders(page);
               }}
             >
               <MdChevronRight color="#ccc" size={20} />
