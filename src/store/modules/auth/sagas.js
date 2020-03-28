@@ -1,15 +1,15 @@
-import { toast } from "react-toastify";
-import { all, call, put, takeLatest } from "redux-saga/effects";
-import api from "../../../services/api";
-import history from "../../../services/history";
-import { signFailure, signInSuccess } from "./actions";
+import { toast } from 'react-toastify';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
+import api from '../../../services/api';
+import history from '../../../services/history';
+import { signFailure, signInSuccess } from './actions';
 
 export function* signIn({ payload }) {
   try {
     const { email, password } = payload;
-    const response = yield call(api.post, "sessions", {
+    const response = yield call(api.post, 'sessions', {
       email,
-      password
+      password,
     });
 
     const { token, user } = response.data;
@@ -18,9 +18,9 @@ export function* signIn({ payload }) {
 
     yield put(signInSuccess(token, user));
 
-    history.push("/orders");
+    history.push('/orders');
   } catch (err) {
-    toast.error("Falha na autenticação, verifique seus dados");
+    toast.error('Falha na autenticação, verifique seus dados');
     yield put(signFailure());
   }
 }
@@ -36,11 +36,11 @@ export function setToken({ payload }) {
 }
 
 export function signOut() {
-  history.push("/");
+  history.push('/');
 }
 
 export default all([
-  takeLatest("persist/REHYDRATE", setToken),
-  takeLatest("@auth/SIGN_IN_REQUEST", signIn),
-  takeLatest("@auth/SIGN_OUT", signOut)
+  takeLatest('persist/REHYDRATE', setToken),
+  takeLatest('@auth/SIGN_IN_REQUEST', signIn),
+  takeLatest('@auth/SIGN_OUT', signOut),
 ]);

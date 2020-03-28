@@ -1,5 +1,5 @@
-import { Input } from "@rocketseat/unform";
-import styled from "styled-components";
+import { Input } from '@rocketseat/unform';
+import styled from 'styled-components';
 
 export const Container = styled.div`
   margin-top: 34px;
@@ -43,7 +43,6 @@ export const Container = styled.div`
       }
     }
   }
-
 `;
 
 export const ButtonSave = styled.button`
