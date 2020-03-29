@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
@@ -82,9 +81,9 @@ export default function PopoverUi({ id, open, anchorEl, call, data }) {
 }
 
 PopoverUi.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   open: PropTypes.bool.isRequired,
-  anchorEl: PropTypes.func.isRequired,
+  anchorEl: PropTypes.shape({}).isRequired,
   call: PropTypes.func.isRequired,
-  data: PropTypes.array.isRequired,
+  data: PropTypes.shape([]).isRequired,
 };
