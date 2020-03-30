@@ -7,7 +7,7 @@ import { FaCircle, FaEllipsisH, FaPlus } from 'react-icons/fa';
 import { MdChevronLeft, MdChevronRight, MdSearch } from 'react-icons/md';
 import { useSelector, useDispatch } from 'react-redux';
 import Popover from '../../components/Popover';
-import ContentPopoverUi from './ContentPopoverUi';
+import PopoveOrdersUi from './PopoveOrdersUi';
 import api from '../../services/api';
 import { orderUpdate } from '../../store/modules/orders/actions';
 
@@ -35,25 +35,6 @@ export default function Orders() {
 
   const id = open ? 'simple-popover' : undefined;
 
-  async function loadListOrders(pageNumber) {
-    try {
-      setLoading(true);
-
-      const response = await api.get(`/order-management?product=${name}`, {
-        params: {
-          page: pageNumber,
-        },
-      });
-
-      setSizeList(response.data.length);
-      setList(response.data);
-      setLoading(null);
-    } catch (err) {
-      setError(true);
-      setLoading(false);
-    }
-  }
-
   function handleClose() {
     setAnchorEl(null);
   }
@@ -78,7 +59,26 @@ export default function Orders() {
   }
 
   useEffect(() => {
-    loadListOrders(page);
+    async function loadList(pageNumber) {
+      try {
+        setLoading(true);
+
+        const response = await api.get(`/order-management?product=${name}`, {
+          params: {
+            page: pageNumber,
+          },
+        });
+
+        setSizeList(response.data.length);
+        setList(response.data);
+        setLoading(null);
+      } catch (err) {
+        setError(true);
+        setLoading(false);
+      }
+    }
+
+    loadList(page);
   }, [name, page, orderState]);
 
   function handleUpdate() {
@@ -193,7 +193,7 @@ export default function Orders() {
             width="150px"
             height="120px"
           >
-            <ContentPopoverUi data={data} />
+            <PopoveOrdersUi data={data} />
           </Popover>
         )}
 

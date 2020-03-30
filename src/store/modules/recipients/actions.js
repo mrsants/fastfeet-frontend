@@ -1,3 +1,10 @@
+export function recipientsCreate(data) {
+  return {
+    type: '@recipients/RECIPIENTS_CREATE',
+    payload: { ...data },
+  };
+}
+
 export function recipientsUpdate(data) {
   return {
     type: '@recipients/RECIPIENTS_UPDATE',
@@ -5,17 +12,13 @@ export function recipientsUpdate(data) {
   };
 }
 
-export function recipientsCreate(data) {
-  return {
-    type: '@recipients/RECIPIENTS_CREATE',
-    payload: { data },
-  };
-}
-
-export function recipientsNewUpdate(data) {
+export function recipientsNewUpdate(id, data) {
   return {
     type: '@recipients/RECIPIENTS_NEW_UPDATE',
-    payload: { ...data },
+    payload: {
+      id,
+      data,
+    },
   };
 }
 

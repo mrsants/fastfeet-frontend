@@ -11,7 +11,7 @@ import {
 import Modal from '../../../components/Modal';
 import ContentModalUi from '../ContentModalUi';
 
-export default function ContentPopoverUi({ data }) {
+export default function PopoveOrdersUi({ data }) {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
@@ -64,7 +64,7 @@ export default function ContentPopoverUi({ data }) {
   );
 }
 
-ContentPopoverUi.propTypes = {
+PopoveOrdersUi.propTypes = {
   data: PropTypes.shape({
     id: PropTypes.number.isRequired,
   }).isRequired,

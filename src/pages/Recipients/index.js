@@ -3,10 +3,12 @@
 import React, { useEffect, useState } from 'react';
 import { FaEllipsisH, FaPlus } from 'react-icons/fa';
 import { MdChevronLeft, MdChevronRight, MdSearch } from 'react-icons/md';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Popover from '../../components/Popover';
 import api from '../../services/api';
 import { recipientsUpdate } from '../../store/modules/recipients/actions';
-import { Container, Pagination, Table, ButtonRegister } from './styles';
+import PopoverRecipientUi from './PopoverRecipientUi';
+import { ButtonRegister, Container, Pagination, Table } from './styles';
 
 export default function Recipients() {
   const [list, setList] = useState([]);
@@ -16,22 +18,16 @@ export default function Recipients() {
   const [page, setPage] = useState(1);
   const [anchorEl, setAnchorEl] = useState(null);
   const [data, setData] = useState();
+
   const dispatch = useDispatch();
   const recipientsState = useSelector(state => state.recipients);
 
-  async function loadList(pageNumber) {
-    try {
-      const response = await api.get(`/recipients?name=${name}`, {
-        params: {
-          page: pageNumber,
-        },
-      });
+  const open = Boolean(anchorEl);
 
-      setSizeList(response.data.length);
-      setList(response.data);
-    } catch (err) {
-      setError(true);
-    }
+  const id = open ? 'simple-popover' : undefined;
+
+  function handleClose() {
+    setAnchorEl(null);
   }
 
   function prevPage() {
@@ -54,8 +50,23 @@ export default function Recipients() {
   }
 
   useEffect(() => {
+    async function loadList(pageNumber) {
+      try {
+        const response = await api.get(`/recipients?name=${name}`, {
+          params: {
+            page: pageNumber,
+          },
+        });
+
+        setSizeList(response.data.length);
+        setList(response.data);
+      } catch (err) {
+        setError(true);
+      }
+    }
+
     loadList(page);
-  }, [recipientsState, name, page]);
+  }, [name, page, recipientsState]);
 
   function handleUpdate() {
     dispatch(
@@ -109,7 +120,7 @@ export default function Recipients() {
                     <td
                       onClick={e => {
                         setAnchorEl(e.currentTarget);
-                        setData(order);
+                        setData(recipient);
                       }}
                     >
                       <FaEllipsisH color="#C6C6C6" size="10" opacity="1" />
@@ -129,22 +140,9 @@ export default function Recipients() {
           anchorEl={anchorEl}
           call={handleClose}
           width="150px"
-          height="120px"
+          height="94px"
         >
-          <ContentPopoverUi data={data} />
-        </Popover>
-      )}
-
-      {data && (
-        <Popover
-          id={id}
-          open={open}
-          anchorEl={anchorEl}
-          call={handleClose}
-          width="150px"
-          height="120px"
-        >
-          <ContentPopoverUi data={data} />
+          <PopoverRecipientUi data={data} />
         </Popover>
       )}
 

@@ -1,17 +1,15 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { MdDeleteForever, MdEdit } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
-import { deliverymansUpdate } from '../../../store/modules/deliverymans/actions';
+import { recipientsUpdate } from '../../../store/modules/recipients/actions';
 
-export default function ContentPopoverUi({ data }) {
+export default function PopoverRecipientUi({ data }) {
   const dispatch = useDispatch();
 
   function handleRedirectTo() {
     dispatch(
-      deliverymansUpdate({
+      recipientsUpdate({
         ...data,
         edit: true,
       })
@@ -33,6 +31,6 @@ export default function ContentPopoverUi({ data }) {
   );
 }
 
-ContentPopoverUi.propTypes = {
+PopoverRecipientUi.propTypes = {
   data: PropTypes.shape({}).isRequired,
 };

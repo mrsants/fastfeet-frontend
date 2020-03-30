@@ -15,7 +15,7 @@ export function* deliverymansCreate({ payload }) {
     });
 
     put(deliverymansSuccess());
-    toast.success('Entregador cadastro com sucesso!');
+    toast.success('Entregador cadastrado com sucesso!');
     history.push('/deliverymans');
   } catch (err) {
     toast.error('Ocorreu um erro ao criar um entregador!');
@@ -34,7 +34,7 @@ export function* deliverymansNewUpdate({ payload }) {
     });
 
     put(deliverymansSuccess());
-    toast.success('Entregador cadastro com sucesso!');
+    toast.success('Entregador cadastrado com sucesso!');
     history.push('/deliverymans');
   } catch (error) {
     yield put(deliverymansFailure());

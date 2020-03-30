@@ -2,10 +2,13 @@ import { Form } from '@rocketseat/unform';
 import React from 'react';
 import { FaCheck, FaChevronLeft } from 'react-icons/fa';
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../services/history';
 import { ButtonBack, ButtonSave, Container, StyledInput } from './styles';
-import { recipientsCreate } from '../../../store/modules/recipients/actions';
+import {
+  recipientsCreate,
+  recipientsNewUpdate,
+} from '../../../store/modules/recipients/actions';
 
 const schema = Yup.object().shape({
   name: Yup.string().required('O nome é obrigatório'),
@@ -23,24 +26,33 @@ const schema = Yup.object().shape({
  * @returns {ReactDOM} Returns a form to register a deliverymans
  */
 export default function RecipientsFormUi() {
+  const { id, edit } = useSelector(state => state.recipients.data);
   const dispatch = useDispatch();
 
   function handleRedirectTo() {
     return e => {
       e.preventDefault();
-      history.push('/recipient');
+      history.push('/recipients');
     };
   }
 
   function handleSubmit(data) {
-    dispatch(recipientsCreate(...data));
+    if (edit) {
+      dispatch(recipientsNewUpdate(id, data));
+    } else {
+      dispatch(recipientsCreate(data));
+    }
   }
 
   return (
     <Container>
       <Form schema={schema} onSubmit={handleSubmit}>
         <div className="flex-justify-between">
-          <h2>Cadastro de encomendas</h2>
+          {edit ? (
+            <h2>Edição de destinatário</h2>
+          ) : (
+            <h2>Cadastro de destinatário</h2>
+          )}
           <div className="flex-justify-between">
             <ButtonBack onClick={handleRedirectTo()}>
               <FaChevronLeft color="#fff" />
@@ -54,35 +66,35 @@ export default function RecipientsFormUi() {
         </div>
         <>
           <div className="form-group">
-            <label>Nome</label> <br />
+            <label htmlFor="name">Nome</label> <br />
             <StyledInput name="name" placeholder="Digite seu nome" />
           </div>
           <div className="flex mbt-16">
             <div className="grow2">
-              <label>Rua</label> <br />
+              <label htmlFor="street">Rua</label> <br />
               <StyledInput name="street" placeholder="Digite sua rua" />
             </div>
             <div className="grow0 mbl-16 mbr-16">
-              <label>Número</label> <br />
+              <label htmlFor="number">Número</label> <br />
               <StyledInput name="number" placeholder="Digite seu nome" />
             </div>
             <div className="grow0">
-              <label>Complemento</label> <br />
+              <label htmlFor="complement">Complemento</label> <br />
               <StyledInput name="complement" />
             </div>
           </div>
 
           <div className="flex-justify-between mbt-16">
             <div className="form-group">
-              <label>Cidade</label> <br />
+              <label htmlFor="city">Cidade</label> <br />
               <StyledInput name="city" placeholder="Digite sua cidade" />
             </div>
             <div className="form-group mbl-16 mbr-16">
-              <label>Estado</label> <br />
+              <label htmlFor="state">Estado</label> <br />
               <StyledInput name="state" placeholder="Digite seu estado" />
             </div>
             <div className="form-group">
-              <label>CEP</label> <br />
+              <label htmlFor="zip_code">CEP</label> <br />
               <StyledInput name="zip_code" placeholder="Digite seu cep" />
             </div>
           </div>

@@ -9,7 +9,7 @@ import { MdChevronLeft, MdChevronRight, MdSearch } from 'react-icons/md';
 import api from '../../services/api';
 import { Container, Pagination, Table, ButtonRegister } from './styles';
 import Popover from '../../components/Popover';
-import ContentPopoverUi from './ContentPopoverUi';
+import PopoverDeliverymansUi from './PopoverDeliverymansUi';
 import { deliverymansUpdate } from '../../store/modules/deliverymans/actions';
 
 export default function Deliverymans() {
@@ -26,21 +26,6 @@ export default function Deliverymans() {
   const open = Boolean(anchorEl);
 
   const id = open ? 'simple-popover' : undefined;
-
-  async function loadList(pageNumber) {
-    try {
-      const response = await api.get(`/deliverymans?name=${name}`, {
-        params: {
-          page: pageNumber,
-        },
-      });
-
-      setSizeList(response.data.length);
-      setList(response.data);
-    } catch (err) {
-      setError(true);
-    }
-  }
 
   function handleClose() {
     setAnchorEl(null);
@@ -66,6 +51,21 @@ export default function Deliverymans() {
   }
 
   useEffect(() => {
+    async function loadList(pageNumber) {
+      try {
+        const response = await api.get(`/deliverymans?name=${name}`, {
+          params: {
+            page: pageNumber,
+          },
+        });
+
+        setSizeList(response.data.length);
+        setList(response.data);
+      } catch (err) {
+        setError(true);
+      }
+    }
+
     loadList(page);
   }, [name, page, deliverymansState]);
 
@@ -87,7 +87,6 @@ export default function Deliverymans() {
             onChange={e => {
               e.preventDefault();
               setName(e.target.value);
-              loadList();
             }}
             type="text"
             placeholder="Buscar por entregadores"
@@ -154,7 +153,7 @@ export default function Deliverymans() {
           width="150px"
           height="94px"
         >
-          <ContentPopoverUi data={data} />
+          <PopoverDeliverymansUi data={data} />
         </Popover>
       )}
 
