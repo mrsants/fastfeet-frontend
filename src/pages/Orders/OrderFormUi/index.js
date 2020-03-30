@@ -21,27 +21,24 @@ import { ButtonBack, ButtonSave, Container, StyledInput } from './styles';
 export default function OrderFormUi() {
   const dispatch = useDispatch();
   const { id, edit } = useSelector(state => state.orders.data);
+  const storage = localStorage.getItem('deliverymans');
+
+  console.log(storage);
+
+
+  function handleSubmit({ recipient_id, deliveryman_id, product }) {
+    if (edit) {
+      dispatch(
+        orderNewUpdate(recipient_id.value, deliveryman_id.value, product, id)
+      );
+    } else {
+      dispatch(orderCreate(recipient_id.value, deliveryman_id.value, product));
+    }
+  }
 
   return (
     <Container>
-      <Form
-        onSubmit={({ recipient_id, deliveryman_id, product }) => {
-          if (edit) {
-            dispatch(
-              orderNewUpdate(
-                recipient_id.value,
-                deliveryman_id.value,
-                product,
-                id
-              )
-            );
-          } else {
-            dispatch(
-              orderCreate(recipient_id.value, deliveryman_id.value, product)
-            );
-          }
-        }}
-      >
+      <Form onSubmit={() => handleSubmit()}>
         <div className="flex-justify-between">
           {edit ? (
             <h2>Edição de encomendas</h2>

@@ -3,32 +3,32 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { FaCircle, FaEllipsisH, FaPlus } from 'react-icons/fa';
 import { MdChevronLeft, MdChevronRight, MdSearch } from 'react-icons/md';
-
+import { useSelector, useDispatch } from 'react-redux';
+import Popover from '../../components/Popover';
+import ContentPopoverUi from './ContentPopoverUi';
 import api from '../../services/api';
-import history from '../../services/history';
+import { orderUpdate } from '../../store/modules/orders/actions';
 
 import {
+  ButtonResgiter,
   Container,
   DotStatus,
   ListOrders,
   Pagination,
-  ButtonResgiter,
 } from './styles';
-import PopoverUi from './PopoverUi';
 
 export default function Orders() {
-  const [listOrders, setListOrders] = useState([]);
+  const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [nameProduct, setNameProduct] = useState('');
+  const [name, setName] = useState('');
   const [sizeList, setSizeList] = useState(0);
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [data, setData] = React.useState();
-
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [data, setData] = useState();
+  const dispatch = useDispatch();
   const orderState = useSelector(state => state.orders);
 
   const open = Boolean(anchorEl);
@@ -39,17 +39,14 @@ export default function Orders() {
     try {
       setLoading(true);
 
-      const response = await api.get(
-        `/order-management?product=${nameProduct}`,
-        {
-          params: {
-            page: pageNumber,
-          },
-        }
-      );
+      const response = await api.get(`/order-management?product=${name}`, {
+        params: {
+          page: pageNumber,
+        },
+      });
 
       setSizeList(response.data.length);
-      setListOrders(response.data);
+      setList(response.data);
       setLoading(null);
     } catch (err) {
       setError(true);
@@ -81,20 +78,17 @@ export default function Orders() {
   }
 
   useEffect(() => {
-    loadListOrders(1);
-  }, []);
-
-  useEffect(() => {
-    loadListOrders();
-  }, [nameProduct, page]);
-
-  useEffect(() => {
     loadListOrders(page);
-  }, [page]);
+  }, [name, page, orderState]);
 
-  useEffect(() => {
-    loadListOrders();
-  }, [orderState]);
+  function handleUpdate() {
+    dispatch(
+      orderUpdate({
+        ...data,
+        edit: false,
+      })
+    );
+  }
 
   return (
     <>
@@ -106,7 +100,7 @@ export default function Orders() {
             <input
               onChange={e => {
                 e.preventDefault();
-                setNameProduct(e.target.value);
+                setName(e.target.value);
               }}
               type="text"
               placeholder="Buscar por encomendas"
@@ -116,7 +110,7 @@ export default function Orders() {
 
           <ButtonResgiter
             onClick={() => {
-              history.push('/order-form-ui', { edit: false });
+              handleUpdate();
             }}
           >
             <FaPlus color="#ffffff" opacity="1" />
@@ -125,82 +119,83 @@ export default function Orders() {
         </div>
 
         {sizeList > 0 && (
-          <>
-            <ListOrders>
-              <table>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Destinatário</th>
-                    <th>Entregador</th>
-                    <th>Cidade</th>
-                    <th>Estado</th>
-                    <th>Status</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {listOrders.map(order => {
-                    return (
-                      <tr key={order.id}>
-                        <td>#{order.id}</td>
-                        <td>{order.recipients.name}</td>
-                        <td className="avatar-uui">
-                          <img
-                            src={order.deliverymans.avatar.url}
-                            alt="Avatar do entregador"
-                          />
-                          <span>{order.deliverymans.name}</span>
-                        </td>
-                        <td>{order.recipients.city}</td>
-                        <td>{order.recipients.state}</td>
-                        <td className="deliver">
-                          <DotStatus
-                            backgroundColor={
-                              (order.status === 'PENDENTE' && '#F0F0DF') ||
-                              (order.status === 'CANCELADA' && '#FAB0B0') ||
-                              (order.status === 'ENTREGUE' && '#DFF0DF') ||
-                              (order.status === 'RETIRADA' && '#BAD2FF')
-                            }
-                            color={
-                              (order.status === 'PENDENTE' && '#C1BC35') ||
-                              (order.status === 'CANCELADA' && '#DE3B3B') ||
-                              (order.status === 'ENTREGUE' && '#2CA42B') ||
-                              (order.status === 'RETIRADA' && '#4D85EE')
-                            }
-                          >
-                            <FaCircle size="10" />
-                            <strong>{order.status}</strong>
-                          </DotStatus>
-                        </td>
-                        <td
-                          className="action"
-                          aria-describedby={id}
-                          variant="contained"
-                          onClick={e => {
-                            setAnchorEl(e.currentTarget);
-                            setData(order);
-                          }}
+          <ListOrders>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Destinatário</th>
+                  <th>Entregador</th>
+                  <th>Cidade</th>
+                  <th>Estado</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {list.map(order => {
+                  return (
+                    <tr key={order.id}>
+                      <td>#{order.id}</td>
+                      <td>{order.recipients.name}</td>
+                      <td className="avatar-uui">
+                        <img
+                          src={order.deliverymans.avatar.url}
+                          alt="Avatar do entregador"
+                        />
+                        <span>{order.deliverymans.name}</span>
+                      </td>
+                      <td>{order.recipients.city}</td>
+                      <td>{order.recipients.state}</td>
+                      <td className="deliver">
+                        <DotStatus
+                          backgroundColor={
+                            (order.status === 'PENDENTE' && '#F0F0DF') ||
+                            (order.status === 'CANCELADA' && '#FAB0B0') ||
+                            (order.status === 'ENTREGUE' && '#DFF0DF') ||
+                            (order.status === 'RETIRADA' && '#BAD2FF')
+                          }
+                          color={
+                            (order.status === 'PENDENTE' && '#C1BC35') ||
+                            (order.status === 'CANCELADA' && '#DE3B3B') ||
+                            (order.status === 'ENTREGUE' && '#2CA42B') ||
+                            (order.status === 'RETIRADA' && '#4D85EE')
+                          }
                         >
-                          <FaEllipsisH color="#C6C6C6" size="10" opacity="1" />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </ListOrders>
-          </>
+                          <FaCircle size="10" />
+                          <strong>{order.status}</strong>
+                        </DotStatus>
+                      </td>
+                      <td
+                        className="action"
+                        aria-describedby={id}
+                        variant="contained"
+                        onClick={e => {
+                          setAnchorEl(e.currentTarget);
+                          setData(order);
+                        }}
+                      >
+                        <FaEllipsisH color="#C6C6C6" size="10" opacity="1" />
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </ListOrders>
         )}
 
         {data && (
-          <PopoverUi
+          <Popover
             id={id}
             open={open}
             anchorEl={anchorEl}
             call={handleClose}
-            data={data}
-          />
+            width="150px"
+            height="120px"
+          >
+            <ContentPopoverUi data={data} />
+          </Popover>
         )}
 
         {!sizeList && !loading && !error && (
