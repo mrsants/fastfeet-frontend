@@ -1,17 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { FaEllipsisH, FaPlus } from "react-icons/fa";
-import { MdChevronLeft, MdChevronRight, MdSearch } from "react-icons/md";
-import { Link } from "react-router-dom/cjs/react-router-dom";
-import api from "../../services/api";
-import { Container, Pagination, Table } from "./styles";
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+import React, { useEffect, useState } from 'react';
+import { FaEllipsisH, FaPlus } from 'react-icons/fa';
+import { MdChevronLeft, MdChevronRight, MdSearch } from 'react-icons/md';
+import { useSelector } from 'react-redux';
+import api from '../../services/api';
+import history from '../../services/history';
+import { Container, Pagination, Table, ButtonRegister } from './styles';
 
-export default function Recipient() {
+export default function Recipients() {
   const [listRecipient, setListRecipient] = useState([]);
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   const [sizeList, setSizeList] = useState(0);
   const [error, setError] = useState(false);
-
   const [page, setPage] = useState(1);
+  const recipientsState = useSelector(state => state.recipients);
+
+  async function loadListRecipient(pageNumber) {
+    try {
+      const response = await api.get(`/recipient?name=${name}`, {
+        params: {
+          page: pageNumber,
+        },
+      });
+
+      const data = response.data.map(order => ({
+        ...order,
+      }));
+
+      setSizeList(response.data.length);
+      setListRecipient(data);
+    } catch (err) {
+      setError(true);
+    }
+  }
 
   function prevPage() {
     if (page === 1) {
@@ -20,7 +42,6 @@ export default function Recipient() {
 
     const pageNumber = page - 1;
     setPage(pageNumber);
-    loadListRecipient(pageNumber);
   }
 
   function nextPage() {
@@ -31,32 +52,16 @@ export default function Recipient() {
     const pageNumber = page + 1;
 
     setPage(pageNumber);
-    loadListRecipient(pageNumber);
-  }
-
-  async function loadListRecipient(page) {
-    try {
-
-      const response = await api.get(`/recipient?name=${name}`, {
-        params: {
-          page
-        }
-      });
-
-      const data = response.data.map(order => ({
-        ...order
-      }));
-
-      setSizeList(response.data.length);
-      setListRecipient(data);
-    } catch (err) {
-      setError(true);
-    }
   }
 
   useEffect(() => {
-    loadListRecipient(1);
-  }, []);
+    loadListRecipient(page);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recipientsState, name, page]);
+
+  function handleUpdate() {
+    history.push('/recipient-register');
+  }
 
   return (
     <Container>
@@ -68,7 +73,6 @@ export default function Recipient() {
             onChange={e => {
               e.preventDefault();
               setName(e.target.value);
-              loadListRecipient();
             }}
             type="text"
             placeholder="Buscar por destinatários"
@@ -76,10 +80,10 @@ export default function Recipient() {
           />
         </div>
 
-        <Link className="register-redirect" to="/recipient-register">
+        <ButtonRegister onClick={() => handleUpdate()}>
           <FaPlus color="#ffffff" opacity="1" />
           <span>CADASTRAR</span>
-        </Link>
+        </ButtonRegister>
       </div>
 
       {sizeList > 0 && (
@@ -94,9 +98,9 @@ export default function Recipient() {
               </tr>
             </thead>
             <tbody>
-              {listRecipient.map((recipient, index) => {
+              {listRecipient.map((recipient, _) => {
                 return (
-                  <tr key={index}>
+                  <tr key={recipient.id}>
                     <td>#{recipient.id}</td>
                     <td>{recipient.name}</td>
                     <td>{`${recipient.street}, ${recipient.number}, ${recipient.city}, ${recipient.state}`}</td>
@@ -122,7 +126,6 @@ export default function Recipient() {
           <span
             onClick={() => {
               prevPage();
-              loadListRecipient(page);
             }}
           >
             <MdChevronLeft color="#ccc" size={20} />
@@ -130,7 +133,6 @@ export default function Recipient() {
           <span
             onClick={() => {
               nextPage();
-              loadListRecipient(page);
             }}
           >
             <MdChevronRight color="#ccc" size={20} />

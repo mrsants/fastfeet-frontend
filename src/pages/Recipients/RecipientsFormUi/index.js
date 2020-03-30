@@ -1,29 +1,20 @@
-/**
- * Modules
- */
-import { Form } from "@rocketseat/unform";
-import React from "react";
-import { FaCheck, FaChevronLeft } from "react-icons/fa";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import api from "../../../services/api";
-/**
- * Services
- */
-import history from "../../../services/history";
-/**
- * StyleSheet
- */
-import { ButtonBack, ButtonSave, Container, StyledInput } from "./styles";
+import { Form } from '@rocketseat/unform';
+import React from 'react';
+import { FaCheck, FaChevronLeft } from 'react-icons/fa';
+import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
+import history from '../../../services/history';
+import { ButtonBack, ButtonSave, Container, StyledInput } from './styles';
+import { recipientsCreate } from '../../../store/modules/recipients/actions';
 
 const schema = Yup.object().shape({
-  name: Yup.string().required("O nome é obrigatório"),
-  street: Yup.string().required("A rua é obrigatória"),
-  number: Yup.string().required("O número é obrigatório"),
+  name: Yup.string().required('O nome é obrigatório'),
+  street: Yup.string().required('A rua é obrigatória'),
+  number: Yup.string().required('O número é obrigatório'),
   complement: Yup.string(),
-  state: Yup.string().required("O estado é obrigatório"),
-  city: Yup.string().required("A cidade é obrigatório"),
-  zip_code: Yup.string().required("O cep é obrigatório")
+  state: Yup.string().required('O estado é obrigatório'),
+  city: Yup.string().required('A cidade é obrigatório'),
+  zip_code: Yup.string().required('O cep é obrigatório'),
 });
 
 /**
@@ -31,30 +22,18 @@ const schema = Yup.object().shape({
  * @param {*} rest
  * @returns {ReactDOM} Returns a form to register a deliverymans
  */
-export default function RecipientRegister() {
+export default function RecipientsFormUi() {
+  const dispatch = useDispatch();
+
   function handleRedirectTo() {
     return e => {
       e.preventDefault();
-      history.push("/deliverymans");
+      history.push('/recipient');
     };
   }
 
-  async function handleSubmit(data) {
-    {
-      try {
-        await api.post("/recipient", {
-          ...data
-        });
-
-        toast.success("Destinário cadastro com sucesso!");
-
-        setTimeout(() => {
-          history.push("/recipient");
-        }, 3000);
-      } catch (error) {
-        toast.error("Ocorreu um erro ao criar um destinário!");
-      }
-    }
+  function handleSubmit(data) {
+    dispatch(recipientsCreate(...data));
   }
 
   return (

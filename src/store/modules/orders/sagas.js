@@ -7,7 +7,7 @@ import { orderFailure, orderSuccess } from './actions';
 export function* orderCreate({ payload }) {
   const { recipient_id, deliveryman_id, product } = payload;
   try {
-    const { data } = yield api.post('/order-management', {
+    const { data } = yield call(api.post, '/order-management', {
       recipient_id,
       deliveryman_id,
       product,
@@ -35,9 +35,7 @@ export function* orderNewUpdate({ payload }) {
     });
 
     yield put(orderSuccess());
-
     toast.success('Dados atualizados com sucesso!');
-
     history.push('/orders');
   } catch (err) {
     yield put(orderFailure());
@@ -46,17 +44,17 @@ export function* orderNewUpdate({ payload }) {
 }
 
 export function orderUpdate() {
-  history.push('/order-form-ui');
+  history.push('/orders-form-ui');
 }
 
 export function* orderDelete({ payload }) {
   const { id } = payload;
   try {
-    const { data } = yield api.get(`/order-management/${id}`);
+    const { data } = yield call(api.get, `/order-management/${id}`);
     if (data.status === 'CANCELADA') {
       toast.error('Encomenda já está cancelada!');
     } else {
-      yield api.delete(`/order-management/${id}`);
+      yield call(api.delete, `/order-management/${id}`);
       yield put(orderSuccess(data));
       toast.success('Encomenda cancelada com sucesso!');
     }

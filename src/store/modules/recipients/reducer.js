@@ -6,26 +6,26 @@ const INITIAL_STATE = {
   loading: false,
 };
 
-export default function orders(state = INITIAL_STATE, action) {
+export default function recipients(state = INITIAL_STATE, action) {
   return produce(state, draft => {
     switch (action.type) {
-      case '@orders/ORDER_CREATE': {
+      case '@recipients/RECIPIENTS_CREATE': {
         draft.loading = true;
         break;
       }
-      case '@orders/ORDER_NEW_UPDATE': {
+      case '@recipients/RECIPIENTS_NEW_UPDATE': {
         draft.loading = true;
         break;
       }
-      case '@orders/ORDER_SUCCESS': {
+      case '@recipients/RECIPIENTS_SUCCESS': {
         draft.loading = false;
         break;
       }
-      case '@orders/ORDER_UPDATE': {
+      case '@recipients/RECIPIENTS_UPDATE': {
         draft.data = { ...action.payload };
         break;
       }
-      case '@orders/ORDER_FAILURE': {
+      case '@recipients/RECIPIENTS_FAILURE': {
         draft.error = true;
         break;
       }

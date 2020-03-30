@@ -1,14 +1,14 @@
-import React from "react";
-import { Switch } from "react-router-dom";
-import Deliverymans from "../pages/Deliverymans";
-import DeliverymansRegister from "../pages/Deliverymans/DeliverymansRegister";
-import Login from "../pages/Login";
-import Orders from "../pages/Orders";
-import OrderFormUi from "../pages/Orders/OrderFormUi";
-import Problems from "../pages/Problems";
-import Recipient from "../pages/Recipient";
-import RecipientRegister from "../pages/Recipient/RecipientRegister";
-import Route from "./Route";
+import React from 'react';
+import { Switch } from 'react-router-dom';
+import Deliverymans from '../pages/Deliverymans';
+import DeliverymansFormUi from '../pages/Deliverymans/DeliverymansFormUi';
+import Login from '../pages/Login';
+import Orders from '../pages/Orders';
+import OrderFormUi from '../pages/Orders/OrderFormUi';
+import Problems from '../pages/Problems';
+import Recipient from '../pages/Recipient';
+import RecipientRegister from '../pages/Recipient/RecipientRegister';
+import Route from './Route';
 
 export default function Routes() {
   return (
@@ -20,7 +20,7 @@ export default function Routes() {
         isPrivate
       />
       <Route
-        path="/order-form-ui"
+        path="/orders-form-ui"
         component={props => <OrderFormUi {...props} />}
         isPrivate
       />
@@ -30,8 +30,8 @@ export default function Routes() {
         isPrivate
       />
       <Route
-        path="/deliverymans-register"
-        component={props => <DeliverymansRegister {...props} />}
+        path="/deliverymans-form-ui"
+        component={props => <DeliverymansFormUi {...props} />}
         isPrivate
       />
       <Route
