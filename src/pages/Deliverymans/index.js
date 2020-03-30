@@ -1,20 +1,33 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { FaEllipsisH, FaPlus } from 'react-icons/fa';
 import { MdChevronLeft, MdChevronRight, MdSearch } from 'react-icons/md';
-import { Link } from 'react-router-dom/cjs/react-router-dom';
 import api from '../../services/api';
-import { Container, Pagination, Table } from './styles';
+import { Container, Pagination, Table, ButtonRegister } from './styles';
+import Popover from '../../components/Popover';
+import ContentPopoverUi from './ContentPopoverUi';
+import { deliverymansUpdate } from '../../store/modules/deliverymans/actions';
 
 export default function Deliverymans() {
-  const [listDeliverymans, setListDeliverymans] = useState([]);
+  const [list, setList] = useState([]);
   const [name, setName] = useState('');
   const [sizeList, setSizeList] = useState(0);
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
+  const [data, setData] = useState();
+  const [anchorEl, setAnchorEl] = useState();
+  const dispatch = useDispatch();
+  const deliverymansState = useSelector(state => state.deliverymans);
 
-  async function loadListDeliverymans(pageNumber) {
+  const open = Boolean(anchorEl);
+
+  const id = open ? 'simple-popover' : undefined;
+
+  async function loadList(pageNumber) {
     try {
       const response = await api.get(`/deliverymans?name=${name}`, {
         params: {
@@ -23,10 +36,14 @@ export default function Deliverymans() {
       });
 
       setSizeList(response.data.length);
-      setListDeliverymans(response.data);
+      setList(response.data);
     } catch (err) {
       setError(true);
     }
+  }
+
+  function handleClose() {
+    setAnchorEl(null);
   }
 
   function prevPage() {
@@ -49,13 +66,17 @@ export default function Deliverymans() {
   }
 
   useEffect(() => {
-    loadListDeliverymans(1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    loadList(page);
+  }, [name, page, deliverymansState]);
 
-  useEffect(() => {
-    loadListDeliverymans(page);
-  }, [page]);
+  function handleUpdate() {
+    dispatch(
+      deliverymansUpdate({
+        ...data,
+        edit: false,
+      })
+    );
+  }
 
   return (
     <Container>
@@ -67,7 +88,7 @@ export default function Deliverymans() {
             onChange={e => {
               e.preventDefault();
               setName(e.target.value);
-              loadListDeliverymans();
+              loadList();
             }}
             type="text"
             placeholder="Buscar por entregadores"
@@ -75,10 +96,10 @@ export default function Deliverymans() {
           />
         </div>
 
-        <Link className="register-redirect" to="/deliverymans-register">
+        <ButtonRegister onClick={() => handleUpdate()}>
           <FaPlus color="#ffffff" opacity="1" />
           <span>CADASTRAR</span>
-        </Link>
+        </ButtonRegister>
       </div>
 
       {sizeList > 0 && (
@@ -94,7 +115,7 @@ export default function Deliverymans() {
               </tr>
             </thead>
             <tbody>
-              {listDeliverymans.map(delivery => {
+              {list.map(delivery => {
                 return (
                   <tr key={delivery.id}>
                     <td>#{delivery.id}</td>
@@ -106,7 +127,15 @@ export default function Deliverymans() {
                     </td>
                     <td>{delivery.name}</td>
                     <td>{delivery.email}</td>
-                    <td>
+                    <td
+                      className="action"
+                      aria-describedby={id}
+                      variant="contained"
+                      onClick={e => {
+                        setAnchorEl(e.currentTarget);
+                        setData(delivery);
+                      }}
+                    >
                       <FaEllipsisH color="#C6C6C6" size="10" opacity="1" />
                     </td>
                   </tr>
@@ -115,6 +144,19 @@ export default function Deliverymans() {
             </tbody>
           </table>
         </Table>
+      )}
+
+      {data && (
+        <Popover
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          call={handleClose}
+          width="150px"
+          height="94px"
+        >
+          <ContentPopoverUi data={data} />
+        </Popover>
       )}
 
       {!sizeList && !error && (

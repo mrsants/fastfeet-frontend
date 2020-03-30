@@ -1,16 +1,20 @@
 /* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { Form } from '@rocketseat/unform';
 import React, { useEffect, useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { FaCheck, FaChevronLeft } from 'react-icons/fa';
 import { IoMdImage } from 'react-icons/io';
 import { toast } from 'react-toastify';
-import { isNullOrUndefined } from 'util';
 import * as Yup from 'yup';
 import api from '../../../services/api';
 import history from '../../../services/history';
+import {
+  deliverymansNewUpdate,
+  deliverymansCreate,
+} from '../../../store/modules/deliverymans/actions';
 
 import {
   Avatar,
@@ -27,11 +31,17 @@ const schema = Yup.object().shape({
     .required('O e-mail é obrigatório'),
 });
 
-export default function DeliverymansRegister() {
+export default function DeliverymansFormUi() {
   const avatarRef = useRef(null);
   const [file, setFile] = useState(null);
   const [avatar, setAvatar] = useState(null);
   const [upload, setUpload] = useState(false);
+  const dispatch = useDispatch();
+
+  const { id, edit } = useSelector(state => {
+    return state.deliverymans.data;
+  });
+
   const onButtonClick = async () => {
     avatarRef.current.click();
   };
@@ -69,23 +79,13 @@ export default function DeliverymansRegister() {
   }, [file]);
 
   const handleSubmit = async ({ name, email }) => {
-    if (!isNullOrUndefined(avatar)) {
-      try {
-        await api.post('/deliverymans', {
-          name,
-          email,
-          avatar_id: avatar.id,
-        });
-
+    if (avatar) {
+      if (edit) {
+        dispatch(deliverymansNewUpdate(id, name, email, avatar.id, id));
         setUpload(true);
-
-        toast.success('Entregador cadastro com sucesso!');
-
-        setTimeout(() => {
-          history.push('/deliverymans');
-        }, 3000);
-      } catch (error) {
-        toast.error('Ocorreu um erro ao criar um entregador!');
+      } else {
+        dispatch(deliverymansCreate(name, email, avatar.id));
+        setUpload(true);
       }
     } else {
       toast.error('Por favor nao é possivel criar um perfil sem um avatar');
@@ -96,7 +96,11 @@ export default function DeliverymansRegister() {
     <Container>
       <Form schema={schema} onSubmit={handleSubmit}>
         <div className="flex-justify-between">
-          <h2>Cadastro de encomendas</h2>
+          {edit ? (
+            <h2>Edição de entregadores</h2>
+          ) : (
+            <h2>Cadastro de entregadores</h2>
+          )}
           <div className="flex-justify-between">
             <ButtonBack
               onClick={e => {
