@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,7 +8,7 @@ import { Config, Container, Menu, MenuItem } from './styles';
 import { signOut } from '../../store/modules/auth/actions';
 
 export default function Header() {
-  const [controls, setControls] = useState([
+  const [controls] = useState([
     {
       id: 0,
       description: 'ENCOMENDAS',
@@ -47,14 +46,26 @@ export default function Header() {
   }
 
   useEffect(() => {
-    const updatePath = controls.filter((menuFindItem, index) => {
-      return menuFindItem.path === history.location.pathname;
+    const updatePath = controls.filter(menuFindItem => {
+      if (menuFindItem.path === history.location.pathname) {
+        return menuFindItem;
+      }
+      const pathReference = history.location.pathname.split(`-`)[0];
+
+      if (menuFindItem.path === pathReference) {
+        return menuFindItem;
+      }
+
+      return null;
     });
 
     if (updatePath) {
       setFontIndex(updatePath[0].id);
+    } else {
+      history.push('/orders');
     }
   }, [controls]);
+
   return (
     <Container>
       <Menu>
