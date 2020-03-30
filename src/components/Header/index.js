@@ -22,7 +22,7 @@ export default function Header() {
     {
       id: 2,
       description: 'DESTINATÁRIOS',
-      path: '/recipient',
+      path: '/recipients',
     },
     {
       id: 3,

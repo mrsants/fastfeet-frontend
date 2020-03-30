@@ -6,8 +6,8 @@ import Login from '../pages/Login';
 import Orders from '../pages/Orders';
 import OrderFormUi from '../pages/Orders/OrderFormUi';
 import Problems from '../pages/Problems';
-import Recipient from '../pages/Recipient';
-import RecipientRegister from '../pages/Recipient/RecipientRegister';
+import Recipients from '../pages/Recipients';
+import RecipientsFormUi from '../pages/Recipients/RecipientsFormUi';
 import Route from './Route';
 
 export default function Routes() {
@@ -35,13 +35,13 @@ export default function Routes() {
         isPrivate
       />
       <Route
-        path="/recipient"
-        component={props => <Recipient {...props} />}
+        path="/recipients"
+        component={props => <Recipients {...props} />}
         isPrivate
       />
       <Route
-        path="/recipient-register"
-        component={props => <RecipientRegister {...props} />}
+        path="/recipients-form-ui"
+        component={props => <RecipientsFormUi {...props} />}
         isPrivate
       />
 
