@@ -40,8 +40,24 @@ export function recipientsUpdate() {
   history.push('/recipients-form-ui');
 }
 
+export function* recipientsDelete({ payload }) {
+  const { id } = payload;
+
+  try {
+    const { data } = yield call(api.delete, `/recipients/${id}`);
+
+    yield put(recipientsSuccess({ ...data }));
+    toast.success('Destinário deletado com sucesso!');
+    history.push('/recipients');
+  } catch (err) {
+    yield put(recipientsFailure());
+    toast.error('Ocorreu um erro ao deletar um destinário!');
+  }
+}
+
 export default all([
   takeLatest('@recipients/RECIPIENTS_CREATE', recipientsCreate),
   takeLatest('@recipients/RECIPIENTS_UPDATE', recipientsUpdate),
   takeLatest('@recipients/RECIPIENTS_NEW_UPDATE', recipientsNewUpdate),
+  takeLatest('@recipients/RECIPIENTS_DELETE', recipientsDelete),
 ]);

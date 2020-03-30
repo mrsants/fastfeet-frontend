@@ -19,13 +19,11 @@ export default function recipients(state = INITIAL_STATE, action) {
       }
       case '@recipients/RECIPIENTS_SUCCESS': {
         draft.loading = false;
-        break;
-      }
-      case '@recipients/RECIPIENTS_UPDATE': {
         draft.data = { ...action.payload };
         break;
       }
       case '@recipients/RECIPIENTS_FAILURE': {
+        draft.loading = false;
         draft.error = true;
         break;
       }

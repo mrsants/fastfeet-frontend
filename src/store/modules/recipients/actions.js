@@ -33,3 +33,10 @@ export function recipientsFailure() {
     type: '@recipients/RECIPIENTS_FAILURE',
   };
 }
+
+export function recipientsDelete(id) {
+  return {
+    type: '@recipients/RECIPIENTS_DELETE',
+    payload: { id },
+  };
+}
