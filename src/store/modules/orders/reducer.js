@@ -19,9 +19,6 @@ export default function orders(state = INITIAL_STATE, action) {
       }
       case '@orders/ORDER_SUCCESS': {
         draft.loading = false;
-        break;
-      }
-      case '@orders/ORDER_UPDATE': {
         draft.data = { ...action.payload };
         break;
       }

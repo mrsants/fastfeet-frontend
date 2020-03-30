@@ -21,10 +21,6 @@ import { ButtonBack, ButtonSave, Container, StyledInput } from './styles';
 export default function OrderFormUi() {
   const dispatch = useDispatch();
   const { id, edit } = useSelector(state => state.orders.data);
-  const storage = localStorage.getItem('deliverymans');
-
-  console.log(storage);
-
 
   function handleSubmit({ recipient_id, deliveryman_id, product }) {
     if (edit) {
@@ -38,7 +34,7 @@ export default function OrderFormUi() {
 
   return (
     <Container>
-      <Form onSubmit={() => handleSubmit()}>
+      <Form onSubmit={handleSubmit}>
         <div className="flex-justify-between">
           {edit ? (
             <h2>Edição de encomendas</h2>

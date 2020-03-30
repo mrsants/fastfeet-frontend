@@ -29,7 +29,7 @@ export default function RecipientInput({
 
   useEffect(() => {
     async function loadData() {
-      const response = await api.get("/recipient", {
+      const response = await api.get("/recipients", {
         params: {
           name: ""
         }
