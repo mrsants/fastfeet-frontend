@@ -46,8 +46,24 @@ export function deliverymansUpdate() {
   history.push('/deliverymans-form-ui');
 }
 
+export function* deliverymansDelete({ payload }) {
+  const { id } = payload;
+
+  try {
+    const { data } = yield call(api.delete, `/deliverymans/${id}`);
+
+    yield put(deliverymansSuccess({ ...data }));
+    toast.success('Destinário deletado com sucesso!');
+    history.push('/deliverymans');
+  } catch (err) {
+    yield put(deliverymansFailure());
+    toast.error('Ocorreu um erro ao deletar um destinário!');
+  }
+}
+
 export default all([
   takeLatest('@deliverymans/DELIVERYMANS_CREATE', deliverymansCreate),
   takeLatest('@deliverymans/DELIVERYMANS_NEW_UPDATE', deliverymansNewUpdate),
   takeLatest('@deliverymans/DELIVERYMANS_UPDATE', deliverymansUpdate),
+  takeLatest('@deliverymans/DELIVERYMANS_DELETE', deliverymansDelete),
 ]);

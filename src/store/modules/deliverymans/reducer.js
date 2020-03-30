@@ -14,13 +14,10 @@ export default function deliverymans(state = INITIAL_STATE, action) {
         draft.loading = true;
         break;
       }
-      case '@deliverymans/DELIVERYMANS_UPDATE': {
-        draft.data = { ...action.payload };
-        break;
-      }
       case '@deliverymans/DELIVERYMANS_SUCCESS': {
         draft.signed = true;
         draft.loading = false;
+        draft.data = { ...action.payload };
         break;
       }
       case '@deliverymans/DELIVERYMANS_FAILURE': {

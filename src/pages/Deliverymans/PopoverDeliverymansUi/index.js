@@ -4,12 +4,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { MdDeleteForever, MdEdit } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
-import { deliverymansUpdate } from '../../../store/modules/deliverymans/actions';
+import {
+  deliverymansUpdate,
+  deliverymansDelete,
+} from '../../../store/modules/deliverymans/actions';
 
 export default function PopoverDeliverymansUi({ data }) {
   const dispatch = useDispatch();
 
-  function handleRedirectTo() {
+  function handleUpdate() {
     dispatch(
       deliverymansUpdate({
         ...data,
@@ -18,14 +21,18 @@ export default function PopoverDeliverymansUi({ data }) {
     );
   }
 
+  function handleDelete(id) {
+    dispatch(deliverymansDelete(id));
+  }
+
   return (
     <>
-      <div onClick={() => handleRedirectTo()}>
+      <div onClick={() => handleUpdate()}>
         <MdEdit size="16" color="#4D85EE" />
         <span>Editar</span>
       </div>
       <hr />
-      <div>
+      <div onClick={() => handleDelete(data.id)}>
         <MdDeleteForever size="16" color="#DE3B3B" />
         <span>Excluir</span>
       </div>

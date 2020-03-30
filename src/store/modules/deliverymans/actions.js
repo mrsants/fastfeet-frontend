@@ -30,3 +30,10 @@ export function deliverymansFailure() {
     type: '@deliverymans/DELIVERYMANS_FAILURE',
   };
 }
+
+export function deliverymansDelete(id) {
+  return {
+    type: '@deliverymans/DELIVERYMANS_DELETE',
+    payload: { id },
+  };
+}
