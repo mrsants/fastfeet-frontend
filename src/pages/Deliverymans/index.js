@@ -72,7 +72,6 @@ export default function Deliverymans() {
   function handleUpdate() {
     dispatch(
       deliverymansUpdate({
-        ...data,
         edit: false,
       })
     );

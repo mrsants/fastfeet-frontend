@@ -84,7 +84,6 @@ export default function Orders() {
   function handleUpdate() {
     dispatch(
       orderUpdate({
-        ...data,
         edit: false,
       })
     );

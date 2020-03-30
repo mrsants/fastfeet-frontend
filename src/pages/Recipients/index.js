@@ -3,33 +3,32 @@
 import React, { useEffect, useState } from 'react';
 import { FaEllipsisH, FaPlus } from 'react-icons/fa';
 import { MdChevronLeft, MdChevronRight, MdSearch } from 'react-icons/md';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import api from '../../services/api';
-import history from '../../services/history';
+import { recipientsUpdate } from '../../store/modules/recipients/actions';
 import { Container, Pagination, Table, ButtonRegister } from './styles';
 
 export default function Recipients() {
-  const [listRecipient, setListRecipient] = useState([]);
+  const [list, setList] = useState([]);
   const [name, setName] = useState('');
   const [sizeList, setSizeList] = useState(0);
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [data, setData] = useState();
+  const dispatch = useDispatch();
   const recipientsState = useSelector(state => state.recipients);
 
-  async function loadListRecipient(pageNumber) {
+  async function loadList(pageNumber) {
     try {
-      const response = await api.get(`/recipient?name=${name}`, {
+      const response = await api.get(`/recipients?name=${name}`, {
         params: {
           page: pageNumber,
         },
       });
 
-      const data = response.data.map(order => ({
-        ...order,
-      }));
-
       setSizeList(response.data.length);
-      setListRecipient(data);
+      setList(response.data);
     } catch (err) {
       setError(true);
     }
@@ -55,12 +54,15 @@ export default function Recipients() {
   }
 
   useEffect(() => {
-    loadListRecipient(page);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    loadList(page);
   }, [recipientsState, name, page]);
 
   function handleUpdate() {
-    history.push('/recipient-register');
+    dispatch(
+      recipientsUpdate({
+        edit: false,
+      })
+    );
   }
 
   return (
@@ -98,13 +100,18 @@ export default function Recipients() {
               </tr>
             </thead>
             <tbody>
-              {listRecipient.map((recipient, _) => {
+              {list.map((recipient, _) => {
                 return (
                   <tr key={recipient.id}>
                     <td>#{recipient.id}</td>
                     <td>{recipient.name}</td>
                     <td>{`${recipient.street}, ${recipient.number}, ${recipient.city}, ${recipient.state}`}</td>
-                    <td>
+                    <td
+                      onClick={e => {
+                        setAnchorEl(e.currentTarget);
+                        setData(order);
+                      }}
+                    >
                       <FaEllipsisH color="#C6C6C6" size="10" opacity="1" />
                     </td>
                   </tr>
@@ -113,6 +120,32 @@ export default function Recipients() {
             </tbody>
           </table>
         </Table>
+      )}
+
+      {data && (
+        <Popover
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          call={handleClose}
+          width="150px"
+          height="120px"
+        >
+          <ContentPopoverUi data={data} />
+        </Popover>
+      )}
+
+      {data && (
+        <Popover
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          call={handleClose}
+          width="150px"
+          height="120px"
+        >
+          <ContentPopoverUi data={data} />
+        </Popover>
       )}
 
       {!sizeList && !error && (
