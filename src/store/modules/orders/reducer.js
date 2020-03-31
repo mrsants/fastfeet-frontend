@@ -17,6 +17,10 @@ export default function orders(state = INITIAL_STATE, action) {
         draft.loading = true;
         break;
       }
+      case '@orders/ORDER_UPDATE': {
+        draft.data = { ...action.payload };
+        break;
+      }
       case '@orders/ORDER_SUCCESS': {
         draft.loading = false;
         draft.data = { ...action.payload };

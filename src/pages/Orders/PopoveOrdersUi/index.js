@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
-import { MdDeleteForever, MdEdit, MdRemoveRedEye } from 'react-icons/md';
+import { MdCancel, MdEdit, MdRemoveRedEye } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -27,7 +27,7 @@ export default function PopoveOrdersUi({ data }) {
     dispatch(orderDelete(param));
   }
 
-  function handleUpdate() {
+  function handleUpdate(data) {
     dispatch(
       orderUpdate({
         ...data,
@@ -52,9 +52,9 @@ export default function PopoveOrdersUi({ data }) {
         <span>Editar</span>
       </div>
       <hr />
-      <div onClick={() => handleDelete(data.id)}>
-        <MdDeleteForever size="16" color="#DE3B3B" />
-        <span>Excluir</span>
+      <div onClick={() => handleDelete(data)}>
+        <MdCancel size="16" color="#DE3B3B" />
+        <span>Cancelar</span>
       </div>
 
       <Modal open={open} call={handleCloseModal}>

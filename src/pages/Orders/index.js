@@ -138,11 +138,17 @@ export default function Orders() {
                       <td>#{order.id}</td>
                       <td>{order.recipients.name}</td>
                       <td className="avatar-uui">
-                        <img
-                          src={order.deliverymans.avatar.url}
-                          alt="Avatar do entregador"
-                        />
-                        <span>{order.deliverymans.name}</span>
+                        {order.deliverymans ? (
+                          <>
+                            <img
+                              src={order.deliverymans.avatar.url}
+                              alt="Avatar do entregador"
+                            />
+                            <span>{order.deliverymans.name}</span>
+                          </>
+                        ) : (
+                          'Encomenda não possui entregadador!'
+                        )}
                       </td>
                       <td>{order.recipients.city}</td>
                       <td>{order.recipients.state}</td>
