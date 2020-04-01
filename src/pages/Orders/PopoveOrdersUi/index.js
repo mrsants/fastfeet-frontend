@@ -23,8 +23,8 @@ export default function PopoveOrdersUi({ data }) {
     setOpen(false);
   }
 
-  function handleDelete(param) {
-    dispatch(orderDelete(param));
+  function handleDelete({ id }) {
+    dispatch(orderDelete(id));
   }
 
   function handleUpdate(data) {
@@ -39,7 +39,8 @@ export default function PopoveOrdersUi({ data }) {
   return (
     <>
       <div
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           handleOpenModal(true);
         }}
       >
@@ -47,12 +48,22 @@ export default function PopoveOrdersUi({ data }) {
         <span>Visualizar</span>
       </div>
       <hr />
-      <div onClick={() => handleUpdate(data)}>
+      <div
+        onClick={e => {
+          e.preventDefault();
+          handleUpdate(data);
+        }}
+      >
         <MdEdit size="16" color="#4D85EE" />
         <span>Editar</span>
       </div>
       <hr />
-      <div onClick={() => handleDelete(data)}>
+      <div
+        onClick={e => {
+          e.preventDefault();
+          handleDelete(data);
+        }}
+      >
         <MdCancel size="16" color="#DE3B3B" />
         <span>Cancelar</span>
       </div>
