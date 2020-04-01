@@ -2,7 +2,8 @@ import React from 'react';
 import { Switch } from 'react-router-dom';
 import Deliverymans from '../pages/Deliverymans';
 import DeliverymansFormUi from '../pages/Deliverymans/DeliverymansFormUi';
-import Login from '../pages/Login';
+import SignIn from '../pages/SignIn';
+import SignUp from '../pages/SignUp';
 import Orders from '../pages/Orders';
 import OrderFormUi from '../pages/Orders/OrderFormUi';
 import Problems from '../pages/Problems';
@@ -13,7 +14,13 @@ import Route from './Route';
 export default function Routes() {
   return (
     <Switch>
-      <Route path="/" exact component={props => <Login {...props} />} />
+      <Route path="/" exact component={props => <SignIn {...props} />} />
+      <Route
+        path="/sign-up"
+        exact
+        component={props => <SignUp {...props} />}
+        isProtected
+      />
       <Route
         path="/orders"
         component={props => <Orders {...props} />}

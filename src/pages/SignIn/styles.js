@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Root = styled.div`
   margin: 0 auto;
-  
+
   form {
     display: flex;
     flex-direction: column;
@@ -57,5 +58,15 @@ export const Root = styled.div`
       padding: 15px;
       font-weight: bold;
     }
+  }
+`;
+
+export const BtnSignUp = styled(Link).attrs({
+  to: '/sign-up',
+})`
+  margin-top: 16px;
+  color: #ccc;
+  &:hover {
+    color: #7d40e7;
   }
 `;
